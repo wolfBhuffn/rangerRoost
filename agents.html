@@ -1,12 +1,12 @@
 <!--⁠ (Multi-Agent Dispatch Hub)
  Purpose: A dedicated control panel to view active background AI agents, prompt queues, fallback arrays, and API status logs for your LLM workflows.
 -->
- <!doctype html>
+<!doctype html>
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RANGER_ROOST / Agents</title>
+  <title>RANGER_ROOST / Agent Matrix</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,91 +64,237 @@
       </div>
     </header>
 
-    <main class="mx-auto max-w-[1440px] px-5 py-8 md:px-10 md:py-10">
-      <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+    <main class="mx-auto max-w-[1440px] px-5 py-8 md:px-10 md:py-10 space-y-6">
+      <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <div>
           <div class="mb-3 flex items-center gap-2 font-mono text-[9px] tracking-[.2em] text-lime-300">
             <span class="h-px w-5 bg-lime-300"></span>RANGER_ROOST / INTELLIGENCE
           </div>
           <h1 class="text-3xl font-medium tracking-[-.05em] text-[#efeee8] md:text-4xl">Agent Matrix</h1>
-          <p class="mt-2 text-sm text-[#858e89]">Multi-agent orchestration, models, and background task dispatches.</p>
+          <p class="mt-2 text-sm text-[#858e89]">Multi-agent orchestration, model fallback stacks, and live task dispatch.</p>
         </div>
         <div class="flex items-center gap-2 border border-[#303639] px-3 py-2 font-mono text-[9px] tracking-[.1em] text-[#89928c]">
-          <span class="h-1.5 w-1.5 rounded-full bg-lime-300 animate-pulse"></span>3 ACTIVE AGENTS
+          <span class="h-1.5 w-1.5 rounded-full bg-lime-300 animate-pulse"></span>4 ACTIVE UNITS
         </div>
       </div>
 
       <!-- Agent Grid -->
-      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
 
-        <!-- Agent 1: Gemini Workspace -->
-        <div class="border border-[#303639] bg-[#191d20] p-6">
-          <div class="flex items-center justify-between border-b border-[#2a3033] pb-4">
-            <div class="flex items-center gap-3">
-              <div class="grid h-8 w-8 place-items-center border border-lime-300/40 bg-lime-300/[.08] font-mono text-xs text-lime-300 font-bold">G1</div>
-              <div>
-                <div class="text-sm font-medium text-[#f0efe8]">Workspace Agent</div>
-                <div class="font-mono text-[9px] text-[#737c77]">GOOGLE WORKSPACE ENGINE</div>
+        <!-- Agent 1: Nexus Core Dispatcher -->
+        <div class="border border-[#303639] bg-[#191d20] p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-[#2a3033] pb-4">
+              <div class="flex items-center gap-3">
+                <div class="grid h-8 w-8 place-items-center border border-lime-300/40 bg-lime-300/[.08] font-mono text-xs text-lime-300 font-bold">A1</div>
+                <div>
+                  <div class="text-sm font-medium text-[#f0efe8]">Nexus Core Dispatcher</div>
+                  <div class="font-mono text-[9px] text-[#737c77]">WORKSPACE & MULTI-AGENT ROUTER</div>
+                </div>
+              </div>
+              <span class="border border-lime-300/30 bg-lime-300/[.05] px-2 py-1 font-mono text-[8px] text-lime-300">LISTENING</span>
+            </div>
+
+            <!-- Fallback Stack Visualizer -->
+            <div class="mt-4 border border-[#242a2d] bg-[#131618] p-3 font-mono text-[9px]">
+              <div class="text-[#727a75] mb-1.5">FALLBACK ENGINE STACK:</div>
+              <div class="flex items-center gap-1.5 text-[#c8cac2]">
+                <span class="text-lime-300 font-semibold">Gemini 1.5 Pro</span>
+                <span class="text-[#555d58]">&rarr;</span>
+                <span>Gemini 1.5 Flash</span>
+                <span class="text-[#555d58]">&rarr;</span>
+                <span class="text-[#88908b]">Local Python Backoff Loop</span>
               </div>
             </div>
-            <span class="border border-lime-300/30 bg-lime-300/[.05] px-2 py-1 font-mono text-[8px] text-lime-300">ACTIVE</span>
+
+            <!-- Telemetry Metrics -->
+            <div class="mt-4 grid grid-cols-3 gap-2 font-mono text-[9px] border-t border-[#242a2d] pt-3 text-[#88908b]">
+              <div><span class="block text-[#626b66]">LATENCY</span> <span class="text-[#e0decd]">240ms</span></div>
+              <div><span class="block text-[#626b66]">QUOTA</span> <span class="text-[#e0decd]">42 / 1000 RPM</span></div>
+              <div><span class="block text-[#626b66]">HEALTH</span> <span class="text-lime-300">100% Backoff</span></div>
+            </div>
           </div>
-          <div class="mt-4 space-y-2 font-mono text-[10px] text-[#88908b]">
-            <div class="flex justify-between"><span>PRIMARY MODEL:</span> <span class="text-[#d0d2ca]">Gemini 1.5 Pro</span></div>
-            <div class="flex justify-between"><span>FALLBACK:</span> <span class="text-[#d0d2ca]">Gemini 1.5 Flash</span></div>
-            <div class="flex justify-between"><span>STATUS:</span> <span class="text-lime-300">Listening on Workspace dispatch</span></div>
-          </div>
-          <div class="mt-6 flex justify-end">
-            <button onclick="alert('Agent G1 dispatched.')" class="border border-[#3a4041] px-4 py-2 font-mono text-[9px] tracking-[.1em] text-[#c8cac2] hover:border-lime-300 hover:text-lime-300">DISPATCH TASK &rarr;</button>
+
+          <div class="mt-6 flex items-center justify-between border-t border-[#2a3033] pt-4">
+            <span class="font-mono text-[9px] text-[#737c77]">LAST DISPATCH: 12m ago</span>
+            <button onclick="dispatchAgent('Nexus Core Dispatcher', 'A1', 'Google Workspace Sync & Agent Array')" class="border border-[#3a4041] px-4 py-2 font-mono text-[9px] tracking-[.1em] text-[#c8cac2] hover:border-lime-300 hover:text-lime-300 transition">
+              DISPATCH TASK &rarr;
+            </button>
           </div>
         </div>
 
-        <!-- Agent 2: Persona & Quote Generator -->
-        <div class="border border-[#303639] bg-[#191d20] p-6">
-          <div class="flex items-center justify-between border-b border-[#2a3033] pb-4">
-            <div class="flex items-center gap-3">
-              <div class="grid h-8 w-8 place-items-center border border-lime-300/40 bg-lime-300/[.08] font-mono text-xs text-lime-300 font-bold">P2</div>
-              <div>
-                <div class="text-sm font-medium text-[#f0efe8]">Persona & Social Bot</div>
-                <div class="font-mono text-[9px] text-[#737c77]">CONTENT ENGINE</div>
+        <!-- Agent 2: Persona & Social Content Engine -->
+        <div class="border border-[#303639] bg-[#191d20] p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-[#2a3033] pb-4">
+              <div class="flex items-center gap-3">
+                <div class="grid h-8 w-8 place-items-center border border-lime-300/40 bg-lime-300/[.08] font-mono text-xs text-lime-300 font-bold">A2</div>
+                <div>
+                  <div class="text-sm font-medium text-[#f0efe8]">Persona & Social Content Engine</div>
+                  <div class="font-mono text-[9px] text-[#737c77]">DAILY QUOTE & REMIX BOT</div>
+                </div>
+              </div>
+              <span class="border border-lime-300/30 bg-lime-300/[.05] px-2 py-1 font-mono text-[8px] text-lime-300">STANDBY</span>
+            </div>
+
+            <!-- Fallback Stack Visualizer -->
+            <div class="mt-4 border border-[#242a2d] bg-[#131618] p-3 font-mono text-[9px]">
+              <div class="text-[#727a75] mb-1.5">FALLBACK ENGINE STACK:</div>
+              <div class="flex items-center gap-1.5 text-[#c8cac2]">
+                <span class="text-lime-300 font-semibold">Gemini 1.5 Flash</span>
+                <span class="text-[#555d58]">&rarr;</span>
+                <span>Claude 3.5 Sonnet</span>
+                <span class="text-[#555d58]">&rarr;</span>
+                <span class="text-[#88908b]">Offline Quote Cache</span>
               </div>
             </div>
-            <span class="border border-lime-300/30 bg-lime-300/[.05] px-2 py-1 font-mono text-[8px] text-lime-300">STANDBY</span>
+
+            <!-- Telemetry Metrics -->
+            <div class="mt-4 grid grid-cols-3 gap-2 font-mono text-[9px] border-t border-[#242a2d] pt-3 text-[#88908b]">
+              <div><span class="block text-[#626b66]">LATENCY</span> <span class="text-[#e0decd]">180ms</span></div>
+              <div><span class="block text-[#626b66]">QUOTA</span> <span class="text-[#e0decd]">12 / 1000 RPM</span></div>
+              <div><span class="block text-[#626b66]">HEALTH</span> <span class="text-lime-300">Optimal</span></div>
+            </div>
           </div>
-          <div class="mt-4 space-y-2 font-mono text-[10px] text-[#88908b]">
-            <div class="flex justify-between"><span>TASK:</span> <span class="text-[#d0d2ca]">Daily Quote & Ideas Gen</span></div>
-            <div class="flex justify-between"><span>STRATEGY:</span> <span class="text-[#d0d2ca]">Multi-Model Fallback</span></div>
-            <div class="flex justify-between"><span>STATUS:</span> <span class="text-[#9ba29d]">Awaiting prompt trigger</span></div>
-          </div>
-          <div class="mt-6 flex justify-end">
-            <button onclick="alert('Agent P2 triggered for quote generation.')" class="border border-[#3a4041] px-4 py-2 font-mono text-[9px] tracking-[.1em] text-[#c8cac2] hover:border-lime-300 hover:text-lime-300">TRIGGER GENERATION &rarr;</button>
+
+          <div class="mt-6 flex items-center justify-between border-t border-[#2a3033] pt-4">
+            <span class="font-mono text-[9px] text-[#737c77]">LAST DISPATCH: 1h ago</span>
+            <button onclick="dispatchAgent('Persona Content Engine', 'A2', 'Daily Social Quote Remix')" class="border border-[#3a4041] px-4 py-2 font-mono text-[9px] tracking-[.1em] text-[#c8cac2] hover:border-lime-300 hover:text-lime-300 transition">
+              GENERATE QUOTE &rarr;
+            </button>
           </div>
         </div>
 
-        <!-- Agent 3: Net Worth Ledger Monitor -->
-        <div class="border border-[#303639] bg-[#191d20] p-6">
-          <div class="flex items-center justify-between border-b border-[#2a3033] pb-4">
-            <div class="flex items-center gap-3">
-              <div class="grid h-8 w-8 place-items-center border border-lime-300/40 bg-lime-300/[.08] font-mono text-xs text-lime-300 font-bold">L3</div>
-              <div>
-                <div class="text-sm font-medium text-[#f0efe8]">Ledger Telemetry</div>
-                <div class="font-mono text-[9px] text-[#737c77]">MARGIN MONITOR</div>
+        <!-- Agent 3: Telemetry & Ledger Guard -->
+        <div class="border border-[#303639] bg-[#191d20] p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-[#2a3033] pb-4">
+              <div class="flex items-center gap-3">
+                <div class="grid h-8 w-8 place-items-center border border-lime-300/40 bg-lime-300/[.08] font-mono text-xs text-lime-300 font-bold">A3</div>
+                <div>
+                  <div class="text-sm font-medium text-[#f0efe8]">Telemetry & Ledger Guard</div>
+                  <div class="font-mono text-[9px] text-[#737c77]">MARGIN & PAYCHECK RECONCILER</div>
+                </div>
+              </div>
+              <span class="border border-lime-300/30 bg-lime-300/[.05] px-2 py-1 font-mono text-[8px] text-lime-300">AUTO-LOOP</span>
+            </div>
+
+            <!-- Fallback Stack Visualizer -->
+            <div class="mt-4 border border-[#242a2d] bg-[#131618] p-3 font-mono text-[9px]">
+              <div class="text-[#727a75] mb-1.5">FALLBACK ENGINE STACK:</div>
+              <div class="flex items-center gap-1.5 text-[#c8cac2]">
+                <span class="text-lime-300 font-semibold">Python Local Worker</span>
+                <span class="text-[#555d58]">&rarr;</span>
+                <span>ledger_store.json</span>
+                <span class="text-[#555d58]">&rarr;</span>
+                <span class="text-[#88908b]">Render Cloud Sync</span>
               </div>
             </div>
-            <span class="border border-lime-300/30 bg-lime-300/[.05] px-2 py-1 font-mono text-[8px] text-lime-300">SYNCING</span>
+
+            <!-- Telemetry Metrics -->
+            <div class="mt-4 grid grid-cols-3 gap-2 font-mono text-[9px] border-t border-[#242a2d] pt-3 text-[#88908b]">
+              <div><span class="block text-[#626b66]">INTERVAL</span> <span class="text-[#e0decd]">30s Sync</span></div>
+              <div><span class="block text-[#626b66]">BASE RATE</span> <span class="text-[#e0decd]">$20.00 / hr</span></div>
+              <div><span class="block text-[#626b66]">HEALTH</span> <span class="text-lime-300">Synced</span></div>
+            </div>
           </div>
-          <div class="mt-4 space-y-2 font-mono text-[10px] text-[#88908b]">
-            <div class="flex justify-between"><span>SOURCE:</span> <span class="text-[#d0d2ca]">ledger_store.json</span></div>
-            <div class="flex justify-between"><span>INTERVAL:</span> <span class="text-[#d0d2ca]">30s Sync Loop</span></div>
-            <div class="flex justify-between"><span>STATUS:</span> <span class="text-lime-300">Margin metrics current</span></div>
+
+          <div class="mt-6 flex items-center justify-between border-t border-[#2a3033] pt-4">
+            <span class="font-mono text-[9px] text-[#737c77]">LAST DISPATCH: Active</span>
+            <button onclick="dispatchAgent('Ledger Guard', 'A3', '30s Telemetry Re-Sync')" class="border border-[#3a4041] px-4 py-2 font-mono text-[9px] tracking-[.1em] text-[#c8cac2] hover:border-lime-300 hover:text-lime-300 transition">
+              SYNC LEDGER &rarr;
+            </button>
           </div>
-          <div class="mt-6 flex justify-end">
-            <button onclick="alert('Ledger Sync Triggered!')" class="border border-[#3a4041] px-4 py-2 font-mono text-[9px] tracking-[.1em] text-[#c8cac2] hover:border-lime-300 hover:text-lime-300">FORCE SYNC &rarr;</button>
+        </div>
+
+        <!-- Agent 4: Web Automation & Scraper -->
+        <div class="border border-[#303639] bg-[#191d20] p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-[#2a3033] pb-4">
+              <div class="flex items-center gap-3">
+                <div class="grid h-8 w-8 place-items-center border border-lime-300/40 bg-lime-300/[.08] font-mono text-xs text-lime-300 font-bold">A4</div>
+                <div>
+                  <div class="text-sm font-medium text-[#f0efe8]">Web Automation & Scraper</div>
+                  <div class="font-mono text-[9px] text-[#737c77]">PLAYWRIGHT / HEALTH CHECK BOT</div>
+                </div>
+              </div>
+              <span class="border border-[#3a4041] bg-[#121518] px-2 py-1 font-mono text-[8px] text-[#88908b]">IDLE</span>
+            </div>
+
+            <!-- Fallback Stack Visualizer -->
+            <div class="mt-4 border border-[#242a2d] bg-[#131618] p-3 font-mono text-[9px]">
+              <div class="text-[#727a75] mb-1.5">FALLBACK ENGINE STACK:</div>
+              <div class="flex items-center gap-1.5 text-[#c8cac2]">
+                <span class="text-lime-300 font-semibold">Playwright Python</span>
+                <span class="text-[#555d58]">&rarr;</span>
+                <span>Requests / BeautifulSoup</span>
+                <span class="text-[#555d58]">&rarr;</span>
+                <span class="text-[#88908b]">Headless Curl</span>
+              </div>
+            </div>
+
+            <!-- Telemetry Metrics -->
+            <div class="mt-4 grid grid-cols-3 gap-2 font-mono text-[9px] border-t border-[#242a2d] pt-3 text-[#88908b]">
+              <div><span class="block text-[#626b66]">TARGET</span> <span class="text-[#e0decd]">GitHub Pages</span></div>
+              <div><span class="block text-[#626b66]">HEADLESS</span> <span class="text-[#e0decd]">True</span></div>
+              <div><span class="block text-[#626b66]">HEALTH</span> <span class="text-lime-300">Ready</span></div>
+            </div>
+          </div>
+
+          <div class="mt-6 flex items-center justify-between border-t border-[#2a3033] pt-4">
+            <span class="font-mono text-[9px] text-[#737c77]">LAST DISPATCH: 3h ago</span>
+            <button onclick="dispatchAgent('Web Automation Scraper', 'A4', 'Site Deployment Health Pass')" class="border border-[#3a4041] px-4 py-2 font-mono text-[9px] tracking-[.1em] text-[#c8cac2] hover:border-lime-300 hover:text-lime-300 transition">
+              RUN AUDIT &rarr;
+            </button>
           </div>
         </div>
 
       </div>
+
+      <!-- Live Execution Output Log Console -->
+      <div class="border border-[#303639] bg-[#14171a] font-mono text-xs text-[#c5c8c0]">
+        <div class="flex items-center justify-between border-b border-[#2a3033] bg-[#191d20] px-4 py-3">
+          <div class="flex items-center gap-2 text-[10px] tracking-[.15em] text-lime-300">
+            <span class="h-2 w-2 rounded-full bg-lime-300 animate-pulse"></span> AGENT EXECUTION CONSOLE DRAWER
+          </div>
+          <button onclick="clearConsole()" class="text-[9px] text-[#727a75] hover:text-[#d0d2ca]">CLEAR LOGS</button>
+        </div>
+
+        <div id="agentConsole" class="h-[180px] overflow-y-auto p-4 space-y-2 text-[11px] text-[#8c948e]">
+          <div>[SYSTEM_INIT] Agent Matrix online. 4 functional roles mounted. Ready for dispatch...</div>
+        </div>
+      </div>
     </main>
   </div>
+
+  <script>
+    function dispatchAgent(agentName, code, action) {
+      const consoleBox = document.getElementById('agentConsole');
+      const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
+
+      const log1 = document.createElement('div');
+      log1.innerHTML = `<span class="text-[#626b66]">[${timestamp}]</span> <span class="text-lime-300 font-bold">[${code}] ${agentName}:</span> Initializing action "${action}"...`;
+      consoleBox.appendChild(log1);
+
+      setTimeout(() => {
+        const log2 = document.createElement('div');
+        log2.innerHTML = `<span class="text-[#626b66]">[${timestamp}]</span> <span class="text-[#efeee8]">  ↳ Routing via primary fallback stack... OK</span>`;
+        consoleBox.appendChild(log2);
+      }, 300);
+
+      setTimeout(() => {
+        const log3 = document.createElement('div');
+        log3.innerHTML = `<span class="text-[#626b66]">[${timestamp}]</span> <span class="text-lime-300">  ↳ Execution complete. Status: 200 OK.</span>`;
+        consoleBox.appendChild(log3);
+        consoleBox.scrollTop = consoleBox.scrollHeight;
+      }, 700);
+
+      consoleBox.scrollTop = consoleBox.scrollHeight;
+    }
+
+    function clearConsole() {
+      document.getElementById('agentConsole').innerHTML = '<div>[SYSTEM_INIT] Console logs wiped. Awaiting agent dispatches...</div>';
+    }
+  </script>
 </body>
 </html>
