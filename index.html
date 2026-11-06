@@ -92,20 +92,14 @@
     <div class="w-full max-w-md space-y-4">
       
       <!-- Option 1: Login Gate / Operator Access -->
-      <a href="./login.html" onclick="triggerGlitch(event, './login.html', 'AUTHENTICATING OPERATOR ACCESS')" class="group block border border-lime-300/40 bg-lime-300/[.06] p-4 text-center transition hover:bg-lime-300/[.15] hover:border-lime-300 shadow-[0_0_15px_rgba(163,230,53,0.05)]">
-        <div class="font-mono text-[9px] tracking-[.3em] text-lime-300 mb-1 group-hover:text-white transition">SECURE CLEARANCE LEVEL 0</div>
-        <div class="font-mono text-sm tracking-[.2em] font-semibold text-[#efeee8] group-hover:text-lime-300 transition uppercase">
-          [ ENGAGE OPERATOR LOGIN ]
-        </div>
-      </a>
+        <!-- Ensure your button/link clicks invoke triggerGlitch properly -->
+  <a href="./login.html" onclick="triggerGlitch(event, './login.html', 'AUTHENTICATING OPERATOR ACCESS')" class="...">
+    [ ENGAGE OPERATOR LOGIN ]
+  </a>
 
-      <!-- Option 2: Guest / Cover Identity Access -->
-      <a href="./index.html" onclick="triggerGlitch(event, './index.html', 'INFILTRATING GUEST COVER IDENTITY')" class="group block border border-[#2b3135] bg-[#14181b] p-4 text-center transition hover:border-[#636c67] hover:bg-[#1b2024]">
-        <div class="font-mono text-[9px] tracking-[.3em] text-[#78817c] mb-1 group-hover:text-lime-300 transition">ANONYMOUS DISGUISE MODE</div>
-        <div class="font-mono text-sm tracking-[.2em] font-semibold text-[#b5bba9] group-hover:text-white transition uppercase">
-          [ INFILTRATE / GUEST COVER ]
-        </div>
-      </a>
+  <a href="./dashboard.html" onclick="triggerGlitch(event, './dashboard.html', 'INFILTRATING GUEST COVER IDENTITY')" class="...">
+    [ INFILTRATE / GUEST COVER ]
+  </a>
     </div>
 
   </main>
