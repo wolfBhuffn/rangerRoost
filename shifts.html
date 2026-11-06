@@ -63,4 +63,175 @@
         <div class="font-mono text-[9px] tracking-[.1em] text-[#a8b1aa]">PRIVATE OPERATOR</div>
         <div class="mt-2 truncate text-xs text-[#757e79]">kwame@wolfsabyter.local</div>
       </div>
-      <div class="border-t border-[#292e31
+      <div class="border-t border-[#292e31] pt-4 font-mono text-[9px] tracking-[.1em] text-[#626b68]">RANGER_ROOST / v1.0.42</div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="md:pl-[252px]">
+    
+    <!-- Header -->
+    <header class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[#292e31] bg-[#101216]/80 px-4 backdrop-blur-md md:px-10">
+      <div class="flex items-center gap-3 overflow-hidden">
+        <button type="button" onclick="toggleMobileDrawer()" class="grid h-9 w-9 shrink-0 place-items-center border border-[#303639] bg-[#191d20]/85 text-lime-300 md:hidden focus:outline-none hover:border-lime-300/50">
+          <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
+          </svg>
+        </button>
+
+        <div class="truncate font-mono text-[9px] sm:text-[10px] tracking-[.14em] text-[#89918c]">
+          <span class="hidden sm:inline">WOLFX__XSABYTERS &gt; </span>
+          <span class="hidden sm:inline">RANGER_ROOST &gt; </span>
+          <span class="text-lime-300 uppercase">SHIFT HISTORY</span>
+        </div>
+      </div>
+
+      <div class="flex shrink-0 items-center gap-3">
+        <div class="text-right hidden xs:block sm:block">
+          <div class="truncate text-xs font-medium text-[#dcdad1] max-w-[120px] sm:max-w-none">Kwame Antonio Lockley</div>
+          <div class="font-mono text-[8px] tracking-[.13em] text-[#737c77]">SOLO OPERATOR</div>
+        </div>
+        <div class="grid h-8 w-8 shrink-0 place-items-center border border-lime-300/40 bg-lime-300/[.08] backdrop-blur-sm font-mono text-xs text-lime-300">
+          K
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-[1440px] px-5 py-8 md:px-10 md:py-10 space-y-6">
+      
+      <!-- Page Header & Bulk Actions -->
+      <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div>
+          <div class="mb-3 flex items-center gap-2 font-mono text-[9px] tracking-[.2em] text-lime-300">
+            <span class="h-px w-5 bg-lime-300"></span>RANGER_ROOST / AUDIT TRAIL
+          </div>
+          <h1 class="text-3xl font-medium tracking-[-.05em] text-[#efeee8] md:text-4xl">Shift History & Ledger</h1>
+          <p class="mt-2 text-sm text-[#858e89]">Complete log of live and backfilled operator shifts. Select entries for bulk deletion.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="deleteSelectedShifts()" class="border border-red-500/40 bg-red-500/[.08] px-4 py-2 font-mono text-[10px] tracking-[.1em] text-red-400 hover:bg-red-500/[.2] transition">
+            DELETE SELECTED (<span id="selectedCount">0</span>)
+          </button>
+          <button onclick="clearAllShifts()" class="border border-[#3a4041] bg-[#191d20] px-4 py-2 font-mono text-[10px] tracking-[.1em] text-[#89918b] hover:border-red-400 hover:text-red-400 transition">
+            PURGE ALL
+          </button>
+        </div>
+      </div>
+
+      <!-- Shift Table Container -->
+      <div class="border border-[#303639] bg-[#191d20] overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left font-mono text-xs">
+            <thead class="border-b border-[#2a3033] bg-[#131619] text-[10px] text-[#727a75] tracking-[.14em]">
+              <tr>
+                <th class="p-4 w-12 text-center">
+                  <input type="checkbox" id="selectAllCheckbox" onclick="toggleSelectAll(this)" class="accent-lime-300 cursor-pointer" />
+                </th>
+                <th class="px-6 py-4">DATE</th>
+                <th class="px-6 py-4">SHIFT NOTE / FOCUS</th>
+                <th class="px-6 py-4">RATE</th>
+                <th class="px-6 py-4">HOURS</th>
+                <th class="px-6 py-4 text-right">TOTAL EARNED</th>
+                <th class="px-6 py-4 text-center">ACTION</th>
+              </tr>
+            </thead>
+            <tbody id="shiftTableBody" class="divide-y divide-[#24292c] text-[#e0decd]">
+              <!-- Dynamically populated from shiftSync.js / localStorage -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    function toggleMobileDrawer() {
+      const drawer = document.getElementById('mobileDrawer');
+      if (drawer) drawer.classList.toggle('hidden');
+    }
+
+    // Custom render override for shifts.html with checkboxes & bulk delete
+    function renderShiftTable() {
+      const tableBody = document.getElementById('shiftTableBody');
+      if (!tableBody) return;
+
+      const ledger = JSON.parse(localStorage.getItem('rr_shifts_ledger')) || [];
+
+      if (ledger.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="7" class="px-6 py-8 text-center text-[#727a75]">No shift records found in ledger. Use dashboard to log or backfill shifts.</td></tr>`;
+        return;
+      }
+
+      tableBody.innerHTML = ledger.map(shift => `
+        <tr class="hover:bg-[#15191c] transition">
+          <td class="p-4 text-center">
+            <input type="checkbox" value="${shift.id}" onclick="updateSelectedCount()" class="shift-checkbox accent-lime-300 cursor-pointer" />
+          </td>
+          <td class="px-6 py-4 text-[#89918c]">${shift.date}</td>
+          <td class="px-6 py-4 text-[#efeee8]">${shift.note}</td>
+          <td class="px-6 py-4">$${parseFloat(shift.rate || 20).toFixed(2)}</td>
+          <td class="px-6 py-4">${shift.hours}h</td>
+          <td class="px-6 py-4 text-right text-lime-300 font-bold">$${parseFloat(shift.total).toFixed(2)}</td>
+          <td class="px-6 py-4 text-center">
+            <button onclick="deleteSingleShift(${shift.id})" class="text-[#727a75] hover:text-red-400 transition">[DELETE]</button>
+          </td>
+        </tr>
+      `).join('');
+
+      updateSelectedCount();
+    }
+
+    function toggleSelectAll(master) {
+      const checkboxes = document.querySelectorAll('.shift-checkbox');
+      checkboxes.forEach(cb => cb.checked = master.checked);
+      updateSelectedCount();
+    }
+
+    function updateSelectedCount() {
+      const checkboxes = document.querySelectorAll('.shift-checkbox:checked');
+      const countEl = document.getElementById('selectedCount');
+      if (countEl) countEl.textContent = checkboxes.length;
+    }
+
+    function deleteSingleShift(id) {
+      if (!confirm('Are you sure you want to delete this shift record?')) return;
+      let ledger = JSON.parse(localStorage.getItem('rr_shifts_ledger')) || [];
+      ledger = ledger.filter(s => s.id !== id);
+      localStorage.setItem('rr_shifts_ledger', JSON.stringify(ledger));
+      renderShiftTable();
+    }
+
+    function deleteSelectedShifts() {
+      const checkedBoxes = document.querySelectorAll('.shift-checkbox:checked');
+      if (checkedBoxes.length === 0) {
+        alert('Please select at least one shift to delete.');
+        return;
+      }
+      if (!confirm(`Are you sure you want to delete ${checkedBoxes.length} selected shift record(s)?`)) return;
+
+      const idsToDelete = Array.from(checkedBoxes).map(cb => Number(cb.value));
+      let ledger = JSON.parse(localStorage.getItem('rr_shifts_ledger')) || [];
+      ledger = ledger.filter(s => !idsToDelete.includes(s.id));
+      localStorage.setItem('rr_shifts_ledger', JSON.stringify(ledger));
+
+      document.getElementById('selectAllCheckbox').checked = false;
+      renderShiftTable();
+    }
+
+    function clearAllShifts() {
+      if (!confirm('WARNING: This will purge ALL recorded shifts from the local ledger. Proceed?')) return;
+      localStorage.setItem('rr_shifts_ledger', JSON.stringify([]));
+      renderShiftTable();
+    }
+
+    // Run table render on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderShiftTable();
+    });
+  </script>
+
+  <!-- Shared Sync Script -->
+  <script src="./assets/shiftSync.js"></script>
+</body>
+</html>
