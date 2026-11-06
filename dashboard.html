@@ -240,6 +240,71 @@
         
         // Reset note input for next shift
         noteInput.value = '';
+          // Set default date for manual backfill to today
+  document.addEventListener('DOMContentLoaded', () => {
+    const todayStr = new Date().toISOString().split('T')[0];
+    const dateInput = document.getElementById('manualDateInput');
+    if (dateInput) dateInput.value = todayStr;
+  });
+
+  function switchShiftMode(mode) {
+    const liveForm = document.getElementById('liveShiftForm');
+    const manualForm = document.getElementById('manualShiftForm');
+    const liveBtn = document.getElementById('modeLiveBtn');
+    const manualBtn = document.getElementById('modeManualBtn');
+
+    if (mode === 'live') {
+      liveForm.classList.remove('hidden');
+      manualForm.classList.add('hidden');
+      liveBtn.className = 'text-lime-300 underline underline-offset-4';
+      manualBtn.className = 'text-[#89918b] hover:text-white';
+    } else {
+      liveForm.classList.add('hidden');
+      manualForm.classList.remove('hidden');
+      manualBtn.className = 'text-lime-300 underline underline-offset-4';
+      liveBtn.className = 'text-[#89918b] hover:text-white';
+    }
+  }
+
+  function submitManualShift(event) {
+    event.preventDefault();
+    const dateVal = document.getElementById('manualDateInput').value;
+    const hoursVal = parseFloat(document.getElementById('manualHoursInput').value);
+    const noteVal = document.getElementById('manualNoteInput').value.trim();
+    const rateVal = parseFloat(document.getElementById('hourlyRateInput').value) || 20.00;
+
+    if (!dateVal || isNaN(hoursVal) || hoursVal <= 0) {
+      alert('Please enter a valid date and number of hours.');
+      return;
+    }
+
+    const totalPay = (hoursVal * rateVal).toFixed(2);
+
+    // Retrieve and update ledger store
+    const ledgerKey = 'rr_shifts_ledger';
+    let ledger = JSON.parse(localStorage.getItem(ledgerKey)) || [];
+
+    const newShift = {
+      id: Date.now(),
+      date: dateVal,
+      note: noteVal || 'Backfilled shift log',
+      rate: rateVal,
+      hours: hoursVal,
+      total: parseFloat(totalPay)
+    };
+
+    ledger.unshift(newShift); // Add to top of list
+    localStorage.setItem(ledgerKey, JSON.stringify(ledger));
+
+    alert(`Backfilled shift successfully logged!\nDate: ${dateVal}\nHours: ${hoursVal}h\nEarned: $${totalPay}`);
+
+    // Reset form fields
+    document.getElementById('manualNoteInput').value = '';
+    document.getElementById('manualHoursInput').value = '';
+
+    // Refresh UI metrics if syncSync.js is loaded
+    if (typeof syncUI === 'function') syncUI();
+  }
       }
     }
   </script>
