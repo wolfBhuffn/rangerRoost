@@ -336,5 +336,93 @@
       document.getElementById('agentConsole').innerHTML = '<div>[SYSTEM_INIT] Console logs wiped. Awaiting agent dispatches...</div>';
     }
   </script>
+    <!-- Quote Preview Modal Overlay -->
+  <div id="quoteModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" onclick="closeQuoteModal()">
+    <div class="border border-lime-300/40 bg-[#14171a] p-6 max-w-lg w-full font-mono text-xs shadow-2xl relative" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between border-b border-[#2a3033] pb-3 mb-4">
+        <div class="text-lime-300 tracking-[.14em]">AGENT_2 // GENERATED CONTENT PAYLOAD</div>
+        <button onclick="closeQuoteModal()" class="text-[#727a75] hover:text-white">[X]</button>
+      </div>
+      
+      <div class="bg-[#101216] border border-[#23282b] p-4 text-[#e9e7df] text-[13px] leading-relaxed mb-6 italic" id="modalQuoteText">
+        "Loading quote stream..."
+      </div>
+
+      <div class="flex items-center justify-between">
+        <span class="text-[9px] text-[#727a75]">ENGINE: Gemini 1.5 Flash [Remix Mode]</span>
+        <div class="flex gap-2">
+          <button onclick="copyGeneratedQuote()" class="border border-[#3a4041] px-4 py-2 text-[9px] tracking-[.1em] text-[#c8cac2] hover:border-lime-300 hover:text-lime-300 transition">
+            COPY QUOTE
+          </button>
+          <button onclick="closeQuoteModal()" class="bg-lime-300 text-[#171a1b] px-4 py-2 text-[9px] font-medium tracking-[.1em] hover:bg-[#d4f378] transition">
+            DISMISS
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleMobileDrawer() {
+      const drawer = document.getElementById('mobileDrawer');
+      if (drawer) {
+        drawer.classList.toggle('hidden');
+      }
+    }
+
+    const sampleQuotes = [
+      "\"Build your local infrastructure like a fortress, deploy to the cloud like a ghost.\" — WOLFX__XSABYTERS",
+      "\"The operator who masters multi-agent fallback loops never fears an API rate limit.\" — RANGER_ROOST",
+      "\"Simplicity is the ultimate sophistication, especially when written in raw HTML and Tailwind.\" — Private Operator Log",
+      "\"Automate the routine, secure the perimeter, own the code.\" — WOLFX__XSABYTERS",
+      "\"A clean terminal is a reflection of a focused mind.\" — Ranger Roost v1.0.42"
+    ];
+
+    function dispatchAgent(agentName, code, action) {
+      const consoleBox = document.getElementById('agentConsole');
+      const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
+
+      const log1 = document.createElement('div');
+      log1.innerHTML = `<span class="text-[#626b66]">[${timestamp}]</span> <span class="text-lime-300 font-bold">[${code}] ${agentName}:</span> Initializing action "${action}"...`;
+      consoleBox.appendChild(log1);
+
+      setTimeout(() => {
+        const log2 = document.createElement('div');
+        log2.innerHTML = `<span class="text-[#626b66]">[${timestamp}]</span> <span class="text-[#efeee8]">  ↳ Routing via primary fallback stack... OK</span>`;
+        consoleBox.appendChild(log2);
+      }, 300);
+
+      setTimeout(() => {
+        const log3 = document.createElement('div');
+        log3.innerHTML = `<span class="text-[#626b66]">[${timestamp}]</span> <span class="text-lime-300">  ↳ Execution complete. Status: 200 OK.</span>`;
+        consoleBox.appendChild(log3);
+        consoleBox.scrollTop = consoleBox.scrollHeight;
+
+        // If it's Agent 2 (Content Engine), pop open the visual quote modal!
+        if (code === 'A2') {
+          const randomQuote = sampleQuotes[Math.floor(Math.random() * sampleQuotes.length)];
+          document.getElementById('modalQuoteText').textContent = randomQuote;
+          document.getElementById('quoteModal').classList.remove('hidden');
+        }
+      }, 700);
+
+      consoleBox.scrollTop = consoleBox.scrollHeight;
+    }
+
+    function closeQuoteModal() {
+      document.getElementById('quoteModal').classList.add('hidden');
+    }
+
+    function copyGeneratedQuote() {
+      const text = document.getElementById('modalQuoteText').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Quote copied to clipboard!');
+      });
+    }
+
+    function clearConsole() {
+      document.getElementById('agentConsole').innerHTML = '<div>[SYSTEM_INIT] Console logs wiped. Awaiting agent dispatches...</div>';
+    }
+  </script>
 </body>
 </html>
