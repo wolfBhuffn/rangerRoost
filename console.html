@@ -48,6 +48,65 @@
 
   <!-- Main Content Area -->
   <div class="md:pl-[252px]">
+    <!-- Mobile Drawer Overlay Panel -->
+<div id="mobileDrawer" class="fixed inset-0 z-40 hidden bg-black/80 backdrop-blur-sm transition-opacity" onclick="toggleMobileDrawer()">
+  <div class="fixed inset-y-0 left-0 w-64 border-r border-[#292e31] bg-[#131619]/95 backdrop-blur-md p-6 text-[#e9e7df]" onclick="event.stopPropagation()">
+    <div class="flex items-center justify-between border-b border-[#292e31] pb-4 mb-6">
+      <div class="font-mono text-xs font-bold text-[#f0efe8]">RANGER<span class="text-lime-300">_ROOST</span></div>
+      <button onclick="toggleMobileDrawer()" class="font-mono text-xs text-[#747c7d] hover:text-white focus:outline-none">[X]</button>
+    </div>
+    <div class="space-y-2 font-mono text-xs">
+      <a href="./index.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Home / Landing</a>
+      <a href="./dashboard.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Overview</a>
+      <a href="./console.html" class="block py-2 text-lime-300">Console</a>
+      <a href="./shifts.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Shift History</a>
+      <a href="./cli.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Terminal (CLI)</a>
+      <a href="./networth.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Net Worth</a>
+      <a href="./agents.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Agents</a>
+      <a href="./analytics.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Analytics</a>
+      <a href="./settings.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Settings</a>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[#292e31] bg-[#101216]/80 px-4 backdrop-blur-md md:px-10">
+  <div class="flex items-center gap-3 overflow-hidden">
+    <!-- Hamburger Button -->
+    <button type="button" onclick="toggleMobileDrawer()" class="grid h-9 w-9 shrink-0 place-items-center border border-[#303639] bg-[#191d20]/80 backdrop-blur-sm text-lime-300 md:hidden focus:outline-none hover:border-lime-300/50">
+      <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
+      </svg>
+    </button>
+
+    <div class="truncate font-mono text-[9px] sm:text-[10px] tracking-[.14em] text-[#89918c]">
+      <span class="hidden sm:inline">WOLFX__XSABYTERS &gt; </span>
+      <span class="hidden sm:inline">RANGER_ROOST &gt; </span>
+      <span class="text-lime-300 uppercase">CONSOLE</span>
+    </div>
+  </div>
+
+  <div class="flex shrink-0 items-center gap-3">
+    <div class="text-right hidden xs:block sm:block">
+      <div class="truncate text-xs font-medium text-[#dcdad1] max-w-[120px] sm:max-w-none">Kwame Antonio Lockley</div>
+      <div class="font-mono text-[8px] tracking-[.13em] text-[#737c77]">SOLO OPERATOR</div>
+    </div>
+    <div class="grid h-8 w-8 shrink-0 place-items-center border border-lime-300/40 bg-lime-300/[.08] backdrop-blur-sm font-mono text-xs text-lime-300">
+      K
+    </div>
+  </div>
+</header>
+
+<!-- JavaScript Script (Place right before </body> tag) -->
+<script>
+  function toggleMobileDrawer() {
+    const drawer = document.getElementById('mobileDrawer');
+    if (drawer) {
+      drawer.classList.toggle('hidden');
+    }
+  }
+</script>
+
     <!-- Updated Header for console.html -->
 <header class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[#292e31] bg-[#101216]/80 px-4 backdrop-blur-md md:px-10">
   
