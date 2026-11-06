@@ -100,13 +100,14 @@
     RANGER_ROOST // PRIVATE OPERATOR ACCESS ONLY
   </footer>
 
-  <script>
+    <script>
     function handleLogin(event) {
       event.preventDefault();
       const val = document.getElementById('loginPasskey').value;
       const status = document.getElementById('loginStatus');
       const overlay = document.getElementById('glitchOverlay');
       const box = document.getElementById('glitchBox');
+      const statusText = document.getElementById('glitchStatusText');
 
       if (val.trim().length > 0) {
         status.innerHTML = '<span class="text-lime-300">STATUS: AUTHENTICATED // DISGUISE UNLOCKED</span>';
@@ -114,9 +115,11 @@
         overlay.classList.remove('opacity-0', 'pointer-events-none');
         overlay.classList.add('opacity-100');
         box.classList.add('glitch-heavy-active');
+        statusText.innerText = "[ACCESS GRANTED] ROUTING TO COMMAND CENTER...";
 
+        // Navigate to the main dashboard/command center after the 1.2s glitch effect
         setTimeout(() => {
-          window.location.href = './index.html';
+          window.location.href = './dashboard.html'; 
         }, 1200);
       } else {
         status.innerHTML = '<span class="text-red-400">STATUS: REJECTED // PASSKEY REQUIRED</span>';
