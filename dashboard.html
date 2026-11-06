@@ -133,7 +133,7 @@
         </div>
       </div>
 
-            <!-- Shift Controller Box -->
+      <!-- Shift Controller Box (Dual Mode: Live Timer or Manual Backfill) -->
       <div class="mt-6 border border-[#303639] bg-[#191d20] p-6">
         <div class="mb-4 flex items-center justify-between font-mono text-[10px] tracking-[.14em]">
           <span class="text-lime-300">SHIFT CONTROLLER // DUAL MODE</span>
@@ -142,6 +142,10 @@
             <span class="text-[#4a524e]">|</span>
             <button type="button" onclick="switchShiftMode('manual')" id="modeManualBtn" class="text-[#89918b] hover:text-white">Manual / Backfill</button>
           </div>
+        </div>
+
+        <div id="liveTimerDisplay" class="mb-4 font-mono text-[10px] text-[#89918b] hidden">
+          ACTIVE TIME: <strong class="text-lime-300">00:00:00</strong>
         </div>
 
         <!-- MODE 1: Live Timer Form -->
@@ -179,7 +183,6 @@
         </form>
       </div>
 
-      </div>
     </main>
   </div>
 
@@ -190,124 +193,72 @@
       drawer.classList.toggle('hidden');
     }
 
-    let isShiftActive = false;
-    let shiftInterval = null;
-    let secondsElapsed = 0;
+    // Set default date for manual backfill to today on load
+    document.addEventListener('DOMContentLoaded', () => {
+      const todayStr = new Date().toISOString().split('T')[0];
+      const dateInput = document.getElementById('manualDateInput');
+      if (dateInput) dateInput.value = todayStr;
+    });
 
-    function toggleShift() {
-      const btn = document.getElementById('shiftButton');
-      const statusInd = document.getElementById('statusIndicator');
-      const statusTxt = document.getElementById('statusText');
-      const timerDisplay = document.getElementById('liveTimerDisplay');
-      const rateInput = document.getElementById('hourlyRateInput');
-      const noteInput = document.getElementById('shiftNoteInput');
+    // Switcher between Live Timer and Manual Backfill modes
+    function switchShiftMode(mode) {
+      const liveForm = document.getElementById('liveShiftForm');
+      const manualForm = document.getElementById('manualShiftForm');
+      const liveBtn = document.getElementById('modeLiveBtn');
+      const manualBtn = document.getElementById('modeManualBtn');
 
-      isShiftActive = !isShiftActive;
-
-      if (isShiftActive) {
-        // Start Shift UI State
-        btn.innerHTML = 'END SHIFT &times;';
-        btn.className = 'inline-flex h-10 items-center justify-center bg-amber-400 px-6 font-mono text-[10px] font-medium tracking-[.1em] text-[#171a1b] hover:bg-amber-300 transition-colors';
-        statusInd.className = 'h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse';
-        statusTxt.textContent = 'SHIFT IN PROGRESS';
-        timerDisplay.classList.remove('hidden');
-        rateInput.disabled = true;
-        noteInput.disabled = true;
-
-        secondsElapsed = 0;
-        shiftInterval = setInterval(() => {
-          secondsElapsed++;
-          const hrs = String(Math.floor(secondsElapsed / 3600)).padStart(2, '0');
-          const mins = String(Math.floor((secondsElapsed % 3600) / 60)).padStart(2, '0');
-          const secs = String(secondsElapsed % 60).padStart(2, '0');
-          timerDisplay.querySelector('strong').textContent = `${hrs}:${mins}:${secs}`;
-        }, 1000);
-
+      if (mode === 'live') {
+        liveForm.classList.remove('hidden');
+        manualForm.classList.add('hidden');
+        liveBtn.className = 'text-lime-300 underline underline-offset-4';
+        manualBtn.className = 'text-[#89918b] hover:text-white';
       } else {
-        // End Shift UI State
-        clearInterval(shiftInterval);
-        btn.innerHTML = 'START SHIFT &rarr;';
-        btn.className = 'inline-flex h-10 items-center justify-center bg-lime-300 px-6 font-mono text-[10px] font-medium tracking-[.1em] text-[#171a1b] hover:bg-[#d4f378] transition-colors';
-        statusInd.className = 'h-1.5 w-1.5 rounded-full bg-lime-300';
-        statusTxt.textContent = 'PERSONAL / PRIVATE';
-        timerDisplay.classList.add('hidden');
-        rateInput.disabled = false;
-        noteInput.disabled = false;
-
-        const hoursWorked = (secondsElapsed / 3600).toFixed(2);
-        const earned = (secondsElapsed / 3600 * parseFloat(rateInput.value)).toFixed(2);
-        alert(`Shift completed!\nTime logged: ${hoursWorked} hours\nEstimated Pay: $${earned}`);
-        
-        // Reset note input for next shift
-        noteInput.value = '';
-          // Set default date for manual backfill to today
-  document.addEventListener('DOMContentLoaded', () => {
-    const todayStr = new Date().toISOString().split('T')[0];
-    const dateInput = document.getElementById('manualDateInput');
-    if (dateInput) dateInput.value = todayStr;
-  });
-
-  function switchShiftMode(mode) {
-    const liveForm = document.getElementById('liveShiftForm');
-    const manualForm = document.getElementById('manualShiftForm');
-    const liveBtn = document.getElementById('modeLiveBtn');
-    const manualBtn = document.getElementById('modeManualBtn');
-
-    if (mode === 'live') {
-      liveForm.classList.remove('hidden');
-      manualForm.classList.add('hidden');
-      liveBtn.className = 'text-lime-300 underline underline-offset-4';
-      manualBtn.className = 'text-[#89918b] hover:text-white';
-    } else {
-      liveForm.classList.add('hidden');
-      manualForm.classList.remove('hidden');
-      manualBtn.className = 'text-lime-300 underline underline-offset-4';
-      liveBtn.className = 'text-[#89918b] hover:text-white';
-    }
-  }
-
-  function submitManualShift(event) {
-    event.preventDefault();
-    const dateVal = document.getElementById('manualDateInput').value;
-    const hoursVal = parseFloat(document.getElementById('manualHoursInput').value);
-    const noteVal = document.getElementById('manualNoteInput').value.trim();
-    const rateVal = parseFloat(document.getElementById('hourlyRateInput').value) || 20.00;
-
-    if (!dateVal || isNaN(hoursVal) || hoursVal <= 0) {
-      alert('Please enter a valid date and number of hours.');
-      return;
-    }
-
-    const totalPay = (hoursVal * rateVal).toFixed(2);
-
-    // Retrieve and update ledger store
-    const ledgerKey = 'rr_shifts_ledger';
-    let ledger = JSON.parse(localStorage.getItem(ledgerKey)) || [];
-
-    const newShift = {
-      id: Date.now(),
-      date: dateVal,
-      note: noteVal || 'Backfilled shift log',
-      rate: rateVal,
-      hours: hoursVal,
-      total: parseFloat(totalPay)
-    };
-
-    ledger.unshift(newShift); // Add to top of list
-    localStorage.setItem(ledgerKey, JSON.stringify(ledger));
-
-    alert(`Backfilled shift successfully logged!\nDate: ${dateVal}\nHours: ${hoursVal}h\nEarned: $${totalPay}`);
-
-    // Reset form fields
-    document.getElementById('manualNoteInput').value = '';
-    document.getElementById('manualHoursInput').value = '';
-
-    // Refresh UI metrics if syncSync.js is loaded
-    if (typeof syncUI === 'function') syncUI();
-  }
+        liveForm.classList.add('hidden');
+        manualForm.classList.remove('hidden');
+        manualBtn.className = 'text-lime-300 underline underline-offset-4';
+        liveBtn.className = 'text-[#89918b] hover:text-white';
       }
     }
+
+    // Handle Manual Shift Backfill submission
+    function submitManualShift(event) {
+      event.preventDefault();
+      const dateVal = document.getElementById('manualDateInput').value;
+      const hoursVal = parseFloat(document.getElementById('manualHoursInput').value);
+      const noteVal = document.getElementById('manualNoteInput').value.trim();
+      const rateVal = 20.00;
+
+      if (!dateVal || isNaN(hoursVal) || hoursVal <= 0) {
+        alert('Please enter a valid date and number of hours.');
+        return;
+      }
+
+      const totalPay = (hoursVal * rateVal).toFixed(2);
+      const ledgerKey = 'rr_shifts_ledger';
+      let ledger = JSON.parse(localStorage.getItem(ledgerKey)) || [];
+
+      const newShift = {
+        id: Date.now(),
+        date: dateVal,
+        note: noteVal || 'Backfilled shift log',
+        rate: rateVal,
+        hours: hoursVal,
+        total: parseFloat(totalPay)
+      };
+
+      ledger.unshift(newShift);
+      localStorage.setItem(ledgerKey, JSON.stringify(ledger));
+
+      alert(`Backfilled shift successfully logged!\nDate: ${dateVal}\nHours: ${hoursVal}h\nEarned: $${totalPay}`);
+
+      document.getElementById('manualNoteInput').value = '';
+      document.getElementById('manualHoursInput').value = '';
+
+      if (typeof syncUI === 'function') syncUI();
+    }
   </script>
+
+  <!-- Shared Sync Script -->
   <script src="./assets/shiftSync.js"></script>
 </body>
 </html>
