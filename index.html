@@ -10,111 +10,168 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Space Grotesk', sans-serif; }
-    .terminal-grid {
-      background-size: 40px 40px;
-      background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    
+    @keyframes glitch {
+      0% { transform: translate(0) }
+      20% { transform: translate(-5px, 5px); filter: hue-rotate(90deg); }
+      40% { transform: translate(-5px, -5px); filter: invert(0.2); }
+      60% { transform: translate(5px, 5px); filter: hue-rotate(-90deg); }
+      80% { transform: translate(5px, -5px); filter: saturate(200%); }
+      100% { transform: translate(0) }
+    }
+    .glitch-active {
+      animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
     }
   </style>
 </head>
-<body class="min-h-screen bg-[#101216] text-[#e9e7df] antialiased selection:bg-lime-300 selection:text-black">
+<body class="min-h-screen bg-[#101216] text-[#e9e7df] antialiased">
 
-  <!-- Main Header -->
-  <header class="relative z-10 mx-auto flex max-w-[1440px] items-center justify-between px-6 py-6 md:px-12">
-    <a href="./index.html" class="flex items-center gap-3 transition hover:opacity-80">
-      <div class="relative grid h-10 w-10 place-items-center border border-lime-300/50 bg-lime-300/[.08] text-lime-300 font-mono font-bold">
-        &gt;_
-        <span class="absolute -right-1 -top-1 h-2 w-2 bg-lime-300"></span>
-      </div>
-      <div class="leading-none">
-        <div class="font-mono text-[13px] font-medium tracking-[.12em] text-[#f0efe8]">RANGER<span class="text-lime-300">_ROOST</span></div>
-        <div class="mt-1.5 font-mono text-[9px] tracking-[.22em] text-[#747c7d]">WOLFX__XSABYTERS</div>
-      </div>
-    </a>
-    <div class="flex items-center gap-5">
-      <span class="hidden items-center gap-2 font-mono text-[10px] tracking-[.16em] text-[#818986] sm:flex">
-        <span class="h-1.5 w-1.5 rounded-full bg-lime-300"></span>SYSTEM ONLINE
-      </span>
-      <a href="./console.html" class="border border-[#373d3f] px-4 py-2.5 font-mono text-[10px] tracking-[.1em] text-[#d6d6ce] transition hover:border-lime-300/70 hover:text-lime-200">
-        CONSOLE &rarr;
+  <!-- Fullscreen Glitch Transition Overlay with Cleaned Asset -->
+  <div id="glitchOverlay" class="fixed inset-0 z-50 pointer-events-none opacity-0 transition-opacity duration-300 bg-black/95 flex flex-col items-center justify-center p-4">
+    <div class="relative w-48 h-48 md:w-64 md:h-64 mb-6 border border-lime-300/40 bg-black/50 overflow-hidden">
+      <img src="./assets/wolf_sheep_bust.png" alt="WOLFX__XSABYTERS" class="w-full h-full object-cover filter contrast-125" />
+    </div>
+    <div class="font-mono text-lime-300 text-sm tracking-[.3em] uppercase animate-pulse">INITIATING DISGUISE PROTOCOL...</div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="fixed inset-y-0 left-0 z-30 hidden w-[252px] flex-col border-r border-[#292e31] bg-[#131619] md:flex">
+    <div class="flex h-[86px] items-center border-b border-[#292e31] px-6">
+      <a href="./index.html" onclick="triggerGlitch(event, './index.html')" class="flex items-center gap-3 transition hover:opacity-80">
+        <div class="relative grid h-10 w-10 place-items-center border border-lime-300/50 bg-lime-300/[.08] text-lime-300 font-mono font-bold">&gt;_</div>
+        <div class="leading-none">
+          <div class="font-mono text-[13px] font-medium tracking-[.12em] text-[#f0efe8]">RANGER<span class="text-lime-300">_ROOST</span></div>
+          <div class="mt-1.5 font-mono text-[9px] tracking-[.22em] text-[#747c7d]">WOLFX__XSABYTERS</div>
+        </div>
       </a>
     </div>
-  </header>
-
-  <!-- Styled Command Navigation Bar -->
-  <nav class="relative z-10 border-y border-[#272c2e] bg-[#14171b]/90 px-6 py-3 backdrop-blur md:px-12">
-    <div class="mx-auto flex max-w-[1440px] flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[10px] tracking-[.12em]">
-      <a href="./index.html" class="text-lime-300 transition hover:text-white">HOME</a>
-      <a href="./console.html" class="text-[#9ba29d] transition hover:text-lime-300">CONSOLE</a>
-      <a href="./dashboard.html" class="text-[#9ba29d] transition hover:text-lime-300">DASHBOARD</a>
-      <a href="./shifts.html" class="text-[#9ba29d] transition hover:text-lime-300">SHIFT HISTORY</a>
-      <a href="./cli.html" class="text-[#9ba29d] transition hover:text-lime-300">TERMINAL (CLI)</a>
-      <a href="./networth.html" class="text-[#9ba29d] transition hover:text-lime-300">NET WORTH</a>
-      <a href="./agents.html" class="text-[#9ba29d] transition hover:text-lime-300">AGENTS</a>
-      <a href="./analytics.html" class="text-[#9ba29d] transition hover:text-lime-300">ANALYTICS</a>
-      <a href="./settings.html" class="text-[#9ba29d] transition hover:text-lime-300">SETTINGS</a>
+    <div class="px-5 pt-7 overflow-y-auto space-y-1">
+      <div class="mb-3 font-mono text-[9px] tracking-[.2em] text-[#68716e]">COMMAND</div>
+      <a href="./console.html" onclick="triggerGlitch(event, './console.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Console</a>
+      <a href="./dashboard.html" onclick="triggerGlitch(event, './dashboard.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Overview</a>
+      <a href="./shifts.html" onclick="triggerGlitch(event, './shifts.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Shift History</a>
+      <a href="./cli.html" onclick="triggerGlitch(event, './cli.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Terminal (CLI)</a>
+      <a href="./networth.html" onclick="triggerGlitch(event, './networth.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Net Worth</a>
+      <a href="./agents.html" onclick="triggerGlitch(event, './agents.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Agents</a>
+      <a href="./analytics.html" onclick="triggerGlitch(event, './analytics.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Analytics</a>
+      <a href="./settings.html" onclick="triggerGlitch(event, './settings.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Settings</a>
     </div>
-  </nav>
+    <div class="mt-auto p-5">
+      <div class="mb-4 border border-[#303638] bg-[#191d20] p-3">
+        <div class="font-mono text-[9px] tracking-[.1em] text-[#a8b1aa]">PRIVATE OPERATOR</div>
+        <div class="mt-2 truncate text-xs text-[#757e79]">kwame@wolfsabyter.local</div>
+      </div>
+      <div class="border-t border-[#292e31] pt-4 font-mono text-[9px] tracking-[.1em] text-[#626b68]">RANGER_ROOST / v1.0.42</div>
+    </div>
+  </aside>
 
-  <!-- Hero Section -->
-  <main>
-    <section class="terminal-grid relative mx-auto grid min-h-[690px] max-w-[1440px] items-center px-6 pb-20 pt-12 md:min-h-[720px] md:grid-cols-[1.15fr_.85fr] md:px-12 md:pb-28">
-      <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#101216] via-[#101216]/90 to-transparent"></div>
+  <!-- Main Content Area -->
+  <div class="md:pl-[252px]">
+    <header class="sticky top-0 z-20 flex h-[72px] items-center justify-between border-b border-[#292e31] bg-[#101216]/95 px-5 backdrop-blur md:px-10">
+      <div class="flex items-center gap-2 font-mono text-[10px] tracking-[.16em] text-[#89918c]">
+        <a href="./index.html" onclick="triggerGlitch(event, './index.html')" class="hover:text-white">WOLFX__XSABYTERS</a> &gt; <span class="text-[#d1d3cb]">RANGER_ROOST</span> &gt; <span class="text-lime-300">COMMAND_CENTER</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="text-right">
+          <div class="text-xs font-medium text-[#dcdad1]">Kwame Antonio Lockley</div>
+          <div class="mt-1 font-mono text-[8px] tracking-[.13em] text-[#737c77]">SOLO OPERATOR</div>
+        </div>
+        <div class="grid h-9 w-9 place-items-center border border-lime-300/40 bg-lime-300/[.08] font-mono text-xs text-lime-300">K</div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-[1440px] px-5 py-8 md:px-10 md:py-10 space-y-8">
       
-      <div class="relative z-[1] max-w-[720px]">
-        <div class="mb-8 flex items-center gap-3 font-mono text-[10px] tracking-[.24em] text-lime-300">
-          <span class="h-px w-8 bg-lime-300"></span>RANGER_ROOST / SOLO OPERATOR CONSOLE
-        </div>
-        <h1 class="max-w-[760px] text-[clamp(3.6rem,8.5vw,8rem)] font-semibold leading-[.87] tracking-[-.075em] text-[#efeee8]">
-          Your time.<br /><span class="text-lime-300">Your ledger.</span>
-        </h1>
-        <p class="mt-8 max-w-[470px] text-lg leading-8 text-[#a4aaa5]">
-          A private shift console for people who work for themselves. Start the clock, close the shift, know exactly what your time earned.
-        </p>
-        <div class="mt-10 flex flex-wrap gap-3">
-          <a href="./console.html" class="inline-flex items-center gap-3 bg-lime-300 px-6 py-4 font-mono text-[11px] font-medium tracking-[.12em] text-[#171a1b] transition hover:bg-[#d3f475]">
-            LAUNCH CONSOLE &rarr;
-          </a>
-          <a href="./cli.html" class="inline-flex items-center gap-3 border border-[#3a4041] px-6 py-4 font-mono text-[11px] tracking-[.12em] text-[#d0d2cc] transition hover:border-[#737c76]">
-            OPEN TERMINAL (CLI)
-          </a>
+      <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end border-b border-[#292e31] pb-6">
+        <div>
+          <div class="mb-3 flex items-center gap-2 font-mono text-[9px] tracking-[.2em] text-lime-300">
+            <span class="h-px w-5 bg-lime-300"></span>HYBRID LOCAL-TO-CLOUD HUB
+          </div>
+          <h1 class="text-3xl font-medium tracking-[-.05em] text-[#efeee8] md:text-4xl">Nexus Command Center</h1>
+          <p class="mt-2 text-sm text-[#858e89]">System online. Multi-agent framework actively syncing workspace telemetry.</p>
         </div>
       </div>
 
-      <!-- Live Shift Demo Monitor -->
-      <div class="relative z-[1] mt-16 flex justify-center md:mt-0 md:justify-end">
-        <div class="relative w-full max-w-[440px] border border-[#3b4142] bg-[#191c20]/95 p-5 md:p-7">
-          <div class="mb-7 flex items-center justify-between border-b border-[#34393b] pb-4">
-            <div class="flex items-center gap-2 font-mono text-[10px] tracking-[.15em] text-[#a3aaa4]">
-              <span class="h-2 w-2 rounded-full bg-lime-300 animate-pulse"></span> LIVE SHIFT MONITOR
+      <!-- Disguise & Passkey Login Portal Card -->
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="md:col-span-1 border border-[#303639] bg-[#191d20] p-6 flex flex-col justify-between">
+          <div>
+            <div class="font-mono text-[10px] tracking-[.15em] text-lime-300 mb-2">ALTER EGO / DISGUISE GATE</div>
+            <h2 class="text-lg font-medium text-[#f0efe8] mb-4">Passkey Authentication</h2>
+            <p class="text-xs text-[#828a85] mb-6">Enter secure passkey credentials to unlock full operator privileges and matrix disguise mode.</p>
+            
+            <div class="space-y-4">
+              <div>
+                <label class="block font-mono text-[9px] tracking-[.1em] text-[#727a75] mb-1">OPERATOR PASSKEY</label>
+                <input type="password" id="passkeyInput" placeholder="••••••••••••" class="w-full bg-[#101216] border border-[#2e3438] px-3 py-2 text-xs font-mono text-[#e9e7df] focus:border-lime-300 focus:outline-none" />
+              </div>
+              <button onclick="authenticatePasskey()" class="w-full border border-lime-300/40 bg-lime-300/[.08] py-2.5 font-mono text-[10px] tracking-[.15em] text-lime-300 hover:bg-lime-300/[.15] transition">
+                AUTHENTICATE &rarr;
+              </button>
             </div>
-            <span class="font-mono text-[9px] text-[#737b76]">NXS // 01</span>
           </div>
-          <div class="font-mono text-[clamp(3.3rem,8vw,5.2rem)] leading-none tracking-[-.06em] text-[#f1f0e9]" id="liveClock">00:00:00</div>
-          <div class="mt-3 flex justify-between font-mono text-[9px] tracking-[.1em] text-[#7f8783]">
-            <span>ELAPSED SESSION</span>
-            <span>PAY RATE <b class="text-[#e0ded5]">$20.00 / HR</b></span>
+          <div id="authStatus" class="mt-6 font-mono text-[9px] text-[#737c77] border-t border-[#292e31] pt-3">
+            STATUS: SECURE / LOCKED
           </div>
         </div>
-      </div>
-    </section>
-  </main>
 
-  <footer class="flex flex-col justify-between gap-3 border-t border-[#272c2e] px-6 py-6 font-mono text-[9px] tracking-[.13em] text-[#707875] md:flex-row md:px-12">
-    <span>WOLFX__XSABYTERS / RANGER_ROOST</span>
-    <span>COMMAND CENTER <span class="text-lime-300">&mdash; PRIVATE OPERATIONS</span></span>
-  </footer>
+        <div class="md:col-span-2 grid gap-4 sm:grid-cols-2">
+          <a href="./console.html" onclick="triggerGlitch(event, './console.html')" class="border border-[#303639] bg-[#191d20] p-5 hover:border-lime-300/50 transition group">
+            <div class="font-mono text-[9px] text-lime-300 mb-1">MODULE 01</div>
+            <div class="text-sm font-medium text-[#f0efe8] group-hover:text-lime-300 transition">AI Command Console &rarr;</div>
+            <p class="mt-2 text-xs text-[#7c8480]">Dispatch prompts directly to Gemini multi-agent fallback arrays.</p>
+          </a>
+
+          <a href="./networth.html" onclick="triggerGlitch(event, './networth.html')" class="border border-[#303639] bg-[#191d20] p-5 hover:border-lime-300/50 transition group">
+            <div class="font-mono text-[9px] text-lime-300 mb-1">MODULE 02</div>
+            <div class="text-sm font-medium text-[#f0efe8] group-hover:text-lime-300 transition">Net Worth & Telemetry &rarr;</div>
+            <p class="mt-2 text-xs text-[#7c8480]">30s automated ledger sync and margin telemetry tracking.</p>
+          </a>
+
+          <a href="./agents.html" onclick="triggerGlitch(event, './agents.html')" class="border border-[#303639] bg-[#191d20] p-5 hover:border-lime-300/50 transition group">
+            <div class="font-mono text-[9px] text-lime-300 mb-1">MODULE 03</div>
+            <div class="text-sm font-medium text-[#f0efe8] group-hover:text-lime-300 transition">Agent Matrix &rarr;</div>
+            <p class="mt-2 text-xs text-[#7c8480]">Configure A1-A5 agent personas and inspect fallback stacks.</p>
+          </a>
+
+          <a href="./shifts.html" onclick="triggerGlitch(event, './shifts.html')" class="border border-[#303639] bg-[#191d20] p-5 hover:border-lime-300/50 transition group">
+            <div class="font-mono text-[9px] text-lime-300 mb-1">MODULE 04</div>
+            <div class="text-sm font-medium text-[#f0efe8] group-hover:text-lime-300 transition">Shift History &rarr;</div>
+            <p class="mt-2 text-xs text-[#7c8480]">Paycheck reconciler with $20.00/hr base rate and command logs.</p>
+          </a>
+        </div>
+      </div>
+    </main>
+  </div>
 
   <script>
-    let seconds = 0;
-    setInterval(() => {
-      seconds++;
-      const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
-      const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
-      const s = String(seconds % 60).padStart(2, '0');
-      document.getElementById('liveClock').textContent = `${h}:${m}:${s}`;
-    }, 1000);
+    function triggerGlitch(event, targetUrl) {
+      event.preventDefault();
+      const overlay = document.getElementById('glitchOverlay');
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      overlay.classList.add('opacity-100', 'glitch-active');
+      
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 350);
+    }
+
+    function authenticatePasskey() {
+      const val = document.getElementById('passkeyInput').value;
+      const status = document.getElementById('authStatus');
+      if (val.length > 3) {
+        status.innerHTML = '<span class="text-lime-300">STATUS: ALTER EGO UNLOCKED / ACCESS GRANTED</span>';
+        const overlay = document.getElementById('glitchOverlay');
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+        overlay.classList.add('opacity-100', 'glitch-active');
+        setTimeout(() => {
+          overlay.classList.remove('opacity-100', 'glitch-active');
+          overlay.classList.add('opacity-0', 'pointer-events-none');
+        }, 800);
+      } else {
+        status.innerHTML = '<span class="text-red-400">STATUS: INVALID PASSKEY CREDENTIALS</span>';
+      }
+    }
   </script>
 </body>
 </html>

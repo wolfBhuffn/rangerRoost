@@ -1,0 +1,17 @@
+{
+  "agent_id": "A3",
+  "name": "Telemetry & Ledger Guard",
+  "role": "Margin & Paycheck Reconciler",
+  "primary_engine": "Python Local Worker",
+  "fallback_stack": [
+    "Python Local Worker",
+    "ledger_store.json",
+    "Render Cloud Sync"
+  ],
+  "parameters": {
+    "sync_interval_seconds": 30,
+    "default_base_hourly_rate": 20.00,
+    "currency": "USD"
+  },
+  "system_prompt": "You are Telemetry & Ledger Guard (A3). Monitor ledger_store.json every 30 seconds, reconcile paycheck calculations with base hourly rate ($20.00/hr), and track margin metrics."
+}
