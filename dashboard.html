@@ -49,59 +49,58 @@
   <!-- Main Content Area -->
   <div class="md:pl-[252px]">
     <!-- Mobile Drawer Overlay (Slide-out menu for screens < 768px) -->
-<div id="mobileDrawer" class="fixed inset-0 z-40 hidden bg-black/80 backdrop-blur-sm transition-opacity" onclick="toggleMobileDrawer()">
-  <div class="fixed inset-y-0 left-0 w-64 border-r border-[#292e31] bg-[#131619] p-6 text-[#e9e7df]" onclick="event.stopPropagation()">
-    <div class="flex items-center justify-between border-b border-[#292e31] pb-4 mb-6">
-      <div class="font-mono text-xs font-bold text-[#f0efe8]">RANGER<span class="text-lime-300">_ROOST</span></div>
-      <button onclick="toggleMobileDrawer()" class="font-mono text-xs text-[#747c7d] hover:text-white">[X]</button>
-    </div>
-    <div class="space-y-2 font-mono text-xs">
-      <a href="./index.html" onclick="triggerGlitch(event, './index.html')" class="block py-2 text-[#9ba29d] hover:text-lime-300">Home / Landing</a>
-      <a href="./dashboard.html" onclick="triggerGlitch(event, './dashboard.html')" class="block py-2 text-lime-300">Overview</a>
-      <a href="./console.html" onclick="triggerGlitch(event, './console.html')" class="block py-2 text-[#9ba29d] hover:text-lime-300">Console</a>
-      <a href="./shifts.html" onclick="triggerGlitch(event, './shifts.html')" class="block py-2 text-[#9ba29d] hover:text-lime-300">Shift History</a>
-      <a href="./networth.html" onclick="triggerGlitch(event, './networth.html')" class="block py-2 text-[#9ba29d] hover:text-lime-300">Net Worth</a>
-      <a href="./agents.html" onclick="triggerGlitch(event, './agents.html')" class="block py-2 text-[#9ba29d] hover:text-lime-300">Agents</a>
-      <a href="./settings.html" onclick="triggerGlitch(event, './settings.html')" class="block py-2 text-[#9ba29d] hover:text-lime-300">Settings</a>
-    </div>
-  </div>
-</div>
-
-<!-- Updated Responsive Header -->
-<header class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[#292e31] bg-[#101216]/95 px-4 backdrop-blur md:px-10">
-  
-  <!-- Left Side: Mobile Hamburger Button + Truncated Breadcrumb -->
-  <div class="flex items-center gap-3 overflow-hidden">
-    <!-- Hamburger Toggle (Visible only on mobile) -->
-    <button onclick="toggleMobileDrawer()" class="grid h-9 w-9 shrink-0 place-items-center border border-[#303639] bg-[#191d20] text-lime-300 md:hidden focus:outline-none">
-      <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
-        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
-      </svg>
-    </button>
-
-    <!-- Truncated Responsive Breadcrumbs -->
-    <div class="truncate font-mono text-[9px] sm:text-[10px] tracking-[.14em] text-[#89918c]">
-      <span class="hidden sm:inline">WOLFX__XSABYTERS &gt; </span>
-      <span class="hidden sm:inline">RANGER_ROOST &gt; </span>
-      <span class="text-lime-300 uppercase">OVERVIEW</span>
-    </div>
-  </div>
-
-  <!-- Right Side: Operator Avatar & Badge -->
-  <div class="flex shrink-0 items-center gap-3">
-    <!-- Operator Name (Hidden on very small screens to avoid squishing) -->
-    <div class="text-right hidden xs:block sm:block">
-      <div class="truncate text-xs font-medium text-[#dcdad1] max-w-[120px] sm:max-w-none">Kwame Antonio Lockley</div>
-      <div class="font-mono text-[8px] tracking-[.13em] text-[#737c77]">SOLO OPERATOR</div>
+    <div id="mobileDrawer" class="fixed inset-0 z-40 hidden bg-black/80 backdrop-blur-sm transition-opacity" onclick="toggleMobileDrawer()">
+      <div class="fixed inset-y-0 left-0 w-64 border-r border-[#292e31] bg-[#131619] p-6 text-[#e9e7df]" onclick="event.stopPropagation()">
+        <div class="flex items-center justify-between border-b border-[#292e31] pb-4 mb-6">
+          <div class="font-mono text-xs font-bold text-[#f0efe8]">RANGER<span class="text-lime-300">_ROOST</span></div>
+          <button onclick="toggleMobileDrawer()" class="font-mono text-xs text-[#747c7d] hover:text-white">[X]</button>
+        </div>
+        <div class="space-y-2 font-mono text-xs">
+          <a href="./index.html" onclick="triggerGlitch(event, './index.html')" class="block py-2 text-[#9ba29d] hover:text-lime-300">Home / Landing</a>
+          <a href="./dashboard.html" onclick="triggerGlitch(event, './dashboard.html')" class="block py-2 text-lime-300">Overview</a>
+          <a href="./console.html" onclick="triggerGlitch(event, './console.html')" class="block py-2 text-[#9ba29d] hover:text-lime-300">Console</a>
+          <a href="./shifts.html" onclick="triggerGlitch(event, './shifts.html')" class="block py-2 text-[#9ba29d] hover:text-lime-300">Shift History</a>
+          <a href="./networth.html" onclick="triggerGlitch(event, './networth.html')" class="block py-2 text-[#9ba29d] hover:text-lime-300">Net Worth</a>
+          <a href="./agents.html" onclick="triggerGlitch(event, './agents.html')" class="block py-2 text-[#9ba29d] hover:text-lime-300">Agents</a>
+          <a href="./settings.html" onclick="triggerGlitch(event, './settings.html')" class="block py-2 text-[#9ba29d] hover:text-lime-300">Settings</a>
+        </div>
+      </div>
     </div>
 
-    <!-- Badge -->
-    <div class="grid h-8 w-8 shrink-0 place-items-center border border-lime-300/40 bg-lime-300/[.08] font-mono text-xs text-lime-300">
-      K
-    </div>
-  </div>
-</header>
+    <!-- Updated Responsive Header -->
+    <header class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[#292e31] bg-[#101216]/95 px-4 backdrop-blur md:px-10">
+      
+      <!-- Left Side: Mobile Hamburger Button + Truncated Breadcrumb -->
+      <div class="flex items-center gap-3 overflow-hidden">
+        <!-- Hamburger Toggle (Visible only on mobile) -->
+        <button onclick="toggleMobileDrawer()" class="grid h-9 w-9 shrink-0 place-items-center border border-[#303639] bg-[#191d20] text-lime-300 md:hidden focus:outline-none">
+          <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
+          </svg>
+        </button>
 
+        <!-- Truncated Responsive Breadcrumbs -->
+        <div class="truncate font-mono text-[9px] sm:text-[10px] tracking-[.14em] text-[#89918c]">
+          <span class="hidden sm:inline">WOLFX__XSABYTERS &gt; </span>
+          <span class="hidden sm:inline">RANGER_ROOST &gt; </span>
+          <span class="text-lime-300 uppercase">OVERVIEW</span>
+        </div>
+      </div>
+
+      <!-- Right Side: Operator Avatar & Badge -->
+      <div class="flex shrink-0 items-center gap-3">
+        <!-- Operator Name (Hidden on very small screens to avoid squishing) -->
+        <div class="text-right hidden xs:block sm:block">
+          <div class="truncate text-xs font-medium text-[#dcdad1] max-w-[120px] sm:max-w-none">Kwame Antonio Lockley</div>
+          <div class="font-mono text-[8px] tracking-[.13em] text-[#737c77]">SOLO OPERATOR</div>
+        </div>
+
+        <!-- Badge -->
+        <div class="grid h-8 w-8 shrink-0 place-items-center border border-lime-300/40 bg-lime-300/[.08] font-mono text-xs text-lime-300">
+          K
+        </div>
+      </div>
+    </header>
 
     <main class="mx-auto max-w-[1440px] px-5 py-8 md:px-10 md:py-10">
       <!-- Page Heading -->
@@ -161,5 +160,13 @@
       </div>
     </main>
   </div>
+
+  <!-- Mobile Drawer Script -->
+  <script>
+    function toggleMobileDrawer() {
+      const drawer = document.getElementById('mobileDrawer');
+      drawer.classList.toggle('hidden');
+    }
+  </script>
 </body>
 </html>
