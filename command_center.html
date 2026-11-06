@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RANGER_ROOST / Operator Homepage</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; }
+    
+    /* Heavy Extended Glitch & RGB Split Animation */
+    @keyframes heavyGlitch {
+      0% { transform: translate(0, 0) scale(1); filter: contrast(150%) brightness(100%); }
+      10% { transform: translate(-8px, 4px) skew(-2deg); filter: contrast(200%) hue-rotate(45deg); }
+      20% { transform: translate(8px, -4px) skew(3deg); filter: contrast(180%) invert(0.1); }
+      30% { transform: translate(-4px, -8px) scale(1.02); filter: contrast(220%) hue-rotate(-60deg); }
+      40% { transform: translate(6px, 6px); filter: contrast(150%) saturate(200%); }
+      50% { transform: translate(-10px, 2px) skew(-5deg); filter: contrast(250%) invert(0.2); }
+      60% { transform: translate(4px, -6px) scale(0.98); filter: contrast(190%) hue-rotate(90deg); }
+      70% { transform: translate(-6px, 8px); filter: contrast(210%) saturate(150%); }
+      80% { transform: translate(8px, -2px) skew(2deg); filter: contrast(170%) brightness(120%); }
+      90% { transform: translate(-2px, -4px); filter: contrast(200%) hue-rotate(-30deg); }
+      100% { transform: translate(0, 0) scale(1); filter: contrast(150%) brightness(100%); }
+    }
+
+    .glitch-heavy-active {
+      animation: heavyGlitch 0.12s steps(2, end) infinite;
+    }
+
+    /* Scanlines overlay effect during transition */
+    .overlay-scanlines {
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.5) 50%), 
+                  linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      background-size: 100% 3px, 4px 100%;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#101216] text-[#e9e7df] antialiased">
+
+  <!-- Extended Glitch Transition Overlay (1.2 Seconds with Image Action) -->
+  <div id="glitchOverlay" class="fixed inset-0 z-50 pointer-events-none opacity-0 transition-opacity duration-200 bg-black/95 flex flex-col items-center justify-center p-4">
+    <div class="absolute inset-0 overlay-scanlines pointer-events-none"></div>
+    <div id="glitchBox" class="relative w-56 h-56 md:w-72 md:h-72 mb-6 border border-lime-300/60 bg-black/80 p-2 overflow-hidden shadow-[0_0_30px_rgba(163,230,53,0.2)]">
+      <!-- Cleaned Wolf in Sheep's Clothing Asset (Maintained aspect ratio, no cropping) -->
+      <img src="./assets/wolf_sheep_bust.png" alt="WOLFX__XSABYTERS" class="w-full h-full object-contain filter contrast-125" id="glitchImg" />
+    </div>
+    <div class="font-mono text-lime-300 text-xs md:text-sm tracking-[.35em] uppercase animate-pulse" id="glitchStatusText">
+      [SYSTEM ALERT] ALTER EGO OVERRIDE ENGAGED...
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="fixed inset-y-0 left-0 z-30 hidden w-[252px] flex-col border-r border-[#292e31] bg-[#131619] md:flex">
+    <div class="flex h-[86px] items-center border-b border-[#292e31] px-6">
+      <a href="./index.html" onclick="triggerGlitch(event, './index.html')" class="flex items-center gap-3 transition hover:opacity-80">
+        <div class="relative grid h-10 w-10 place-items-center border border-lime-300/50 bg-lime-300/[.08] text-lime-300 font-mono font-bold">&gt;_</div>
+        <div class="leading-none">
+          <div class="font-mono text-[13px] font-medium tracking-[.12em] text-[#f0efe8]">RANGER<span class="text-lime-300">_ROOST</span></div>
+          <div class="mt-1.5 font-mono text-[9px] tracking-[.22em] text-[#747c7d]">WOLFX__XSABYTERS</div>
+        </div>
+      </a>
+    </div>
+    <div class="px-5 pt-7 overflow-y-auto space-y-1">
+      <div class="mb-3 font-mono text-[9px] tracking-[.2em] text-[#68716e]">COMMAND</div>
+      <a href="./index.html" onclick="triggerGlitch(event, './index.html')" class="flex items-center justify-between bg-[#22272a] px-3 py-2.5 text-sm text-lime-300">
+        <span>Home / Overview</span>
+        <span class="h-1.5 w-1.5 bg-lime-300"></span>
+      </a>
+      <a href="./console.html" onclick="triggerGlitch(event, './console.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Console</a>
+      <a href="./dashboard.html" onclick="triggerGlitch(event, './dashboard.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Metrics Overview</a>
+      <a href="./shifts.html" onclick="triggerGlitch(event, './shifts.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Shift History</a>
+      <a href="./cli.html" onclick="triggerGlitch(event, './cli.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Terminal (CLI)</a>
+      <a href="./networth.html" onclick="triggerGlitch(event, './networth.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Net Worth</a>
+      <a href="./agents.html" onclick="triggerGlitch(event, './agents.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Agents</a>
+      <a href="./analytics.html" onclick="triggerGlitch(event, './analytics.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Analytics</a>
+      <a href="./settings.html" onclick="triggerGlitch(event, './settings.html')" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Settings</a>
+    </div>
+    <div class="mt-auto p-5">
+      <div class="mb-4 border border-[#303638] bg-[#191d20] p-3">
+        <div class="font-mono text-[9px] tracking-[.1em] text-[#a8b1aa]">PRIVATE OPERATOR</div>
+        <div class="mt-2 truncate text-xs text-[#757e79]">kwame@wolfsabyter.local</div>
+      </div>
+      <div class="border-t border-[#292e31] pt-4 font-mono text-[9px] tracking-[.1em] text-[#626b68]">RANGER_ROOST / v1.0.42</div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="md:pl-[252px]">
+    <header class="sticky top-0 z-20 flex h-[72px] items-center justify-between border-b border-[#292e31] bg-[#101216]/95 px-5 backdrop-blur md:px-10">
+      <div class="flex items-center gap-2 font-mono text-[10px] tracking-[.16em] text-[#89918c]">
+        <a href="./index.html" onclick="triggerGlitch(event, './index.html')" class="hover:text-white">WOLFX__XSABYTERS</a> &gt; <span class="text-lime-300">HOMEPAGE</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="text-right">
+          <div class="text-xs font-medium text-[#dcdad1]">Kwame Antonio Lockley</div>
+          <div class="mt-1 font-mono text-[8px] tracking-[.13em] text-[#737c77]">SOLO OPERATOR</div>
+        </div>
+        <div class="grid h-9 w-9 place-items-center border border-lime-300/40 bg-lime-300/[.08] font-mono text-xs text-lime-300">K</div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-[1440px] px-5 py-8 md:px-10 md:py-10 space-y-8">
+      
+      <!-- Custom Operator Hero Banner -->
+      <div class="border border-[#303639] bg-[#191d20] p-8 relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div class="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 pointer-events-none overflow-hidden flex items-center justify-end">
+          <img src="./assets/wolf_sheep_bust.png" class="h-full object-cover" alt="" />
+        </div>
+        <div class="z-10 max-w-2xl">
+          <div class="mb-3 flex items-center gap-2 font-mono text-[9px] tracking-[.2em] text-lime-300">
+            <span class="h-px w-5 bg-lime-300"></span>WOLFX__XSABYTERS // COMMAND HQ
+          </div>
+          <h1 class="text-3xl font-medium tracking-[-.05em] text-[#efeee8] md:text-5xl">Ranger Roost Hub</h1>
+          <p class="mt-3 text-sm text-[#8f9893] leading-relaxed">
+            Multi-agent orchestration, automated ledger telemetry, and high-impact workspace coordination running locally on MacBook Pro zsh infrastructure.
+          </p>
+        </div>
+        <div class="z-10 flex flex-col sm:flex-row gap-3">
+          <a href="./login.html" onclick="triggerGlitch(event, './login.html')" class="border border-lime-300/40 bg-lime-300/[.08] px-5 py-3 font-mono text-[10px] tracking-[.15em] text-lime-300 hover:bg-lime-300/[.18] transition text-center">
+            [ SECURE LOGIN ]
+          </a>
+          <a href="./console.html" onclick="triggerGlitch(event, './console.html')" class="border border-[#3a4041] bg-[#121518] px-5 py-3 font-mono text-[10px] tracking-[.15em] text-[#c8cac2] hover:border-lime-300 hover:text-lime-300 transition text-center">
+            LAUNCH CONSOLE &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Telemetry Status Bar -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="border border-[#303639] bg-[#191d20] p-4 font-mono text-xs">
+          <div class="text-[#727a75] text-[9px] tracking-[.15em] mb-1">SYSTEM STATUS</div>
+          <div class="text-lime-300 font-bold flex items-center gap-2">
+            <span class="h-2 w-2 rounded-full bg-lime-300 animate-pulse"></span> ONLINE (100%)
+          </div>
+        </div>
+        <div class="border border-[#303639] bg-[#191d20] p-4 font-mono text-xs">
+          <div class="text-[#727a75] text-[9px] tracking-[.15em] mb-1">ACTIVE AGENTS</div>
+          <div class="text-[#f0efe8] font-bold">4 UNITS MOUNTED</div>
+        </div>
+        <div class="border border-[#303639] bg-[#191d20] p-4 font-mono text-xs">
+          <div class="text-[#727a75] text-[9px] tracking-[.15em] mb-1">BASE HOURLY RATE</div>
+          <div class="text-[#f0efe8] font-bold">$20.00 / HR</div>
+        </div>
+        <div class="border border-[#303639] bg-[#191d20] p-4 font-mono text-xs">
+          <div class="text-[#727a75] text-[9px] tracking-[.15em] mb-1">LEDGER SYNC</div>
+          <div class="text-lime-300 font-bold">30s AUTO-LOOP</div>
+        </div>
+      </div>
+
+      <!-- Core Modules Grid -->
+      <div class="grid gap-4 md:grid-cols-3">
+        <a href="./console.html" onclick="triggerGlitch(event, './console.html')" class="border border-[#303639] bg-[#191d20] p-6 hover:border-lime-300/50 transition group flex flex-col justify-between">
+          <div>
+            <div class="font-mono text-[9px] text-lime-300 mb-2">MODULE 01</div>
+            <h3 class="text-base font-medium text-[#f0efe8] group-hover:text-lime-300 transition mb-2">AI Command Console</h3>
+            <p class="text-xs text-[#7c8480]">Dispatch prompts directly to Gemini multi-agent fallback arrays and monitor raw execution logs.</p>
+          </div>
+          <div class="mt-6 font-mono text-[9px] text-lime-300 tracking-[.1em]">ACCESS CONSOLE &rarr;</div>
+        </a>
+
+        <a href="./agents.html" onclick="triggerGlitch(event, './agents.html')" class="border border-[#303639] bg-[#191d20] p-6 hover:border-lime-300/50 transition group flex flex-col justify-between">
+          <div>
+            <div class="font-mono text-[9px] text-lime-300 mb-2">MODULE 02</div>
+            <h3 class="text-base font-medium text-[#f0efe8] group-hover:text-lime-300 transition mb-2">Agent Matrix & Personas</h3>
+            <p class="text-xs text-[#7c8480]">Inspect modular config files, persona guidelines (A1-A5), and fallback stacking trees.</p>
+          </div>
+          <div class="mt-6 font-mono text-[9px] text-lime-300 tracking-[.1em]">VIEW AGENTS &rarr;</div>
+        </a>
+
+        <a href="./networth.html" onclick="triggerGlitch(event, './networth.html')" class="border border-[#303639] bg-[#191d20] p-6 hover:border-lime-300/50 transition group flex flex-col justify-between">
+          <div>
+            <div class="font-mono text-[9px] text-lime-300 mb-2">MODULE 03</div>
+            <h3 class="text-base font-medium text-[#f0efe8] group-hover:text-lime-300 transition mb-2">Net Worth & Ledger</h3>
+            <p class="text-xs text-[#7c8480]">Track asset telemetry, account margins, and ledger_store.json synchronization metrics.</p>
+          </div>
+          <div class="mt-6 font-mono text-[9px] text-lime-300 tracking-[.1em]">OPEN LEDGER &rarr;</div>
+        </a>
+      </div>
+    </main>
+  </div>
+
+  <!-- Extended Glitch & Transition Control Script (1.2s duration) -->
+  <script>
+    function triggerGlitch(event, targetUrl) {
+      event.preventDefault();
+      const overlay = document.getElementById('glitchOverlay');
+      const box = document.getElementById('glitchBox');
+      const statusText = document.getElementById('glitchStatusText');
+
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      overlay.classList.add('opacity-100');
+      box.classList.add('glitch-heavy-active');
+
+      statusText.innerText = "[ROUTING] DISPATCHING TO " + targetUrl.toUpperCase() + "...";
+
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 1200);
+    }
+  </script>
+</body>
+</html>
