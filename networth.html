@@ -97,7 +97,7 @@
       </div>
     </header>
 
-    <main class="mx-auto max-w-[1440px] px-5 py-8 md:px-10 md:py-10">
+    <main class="mx-auto max-w-[1440px] px-5 py-8 md:px-10 md:py-10 space-y-6">
       <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <div>
           <div class="mb-3 flex items-center gap-2 font-mono text-[9px] tracking-[.2em] text-lime-300">
@@ -138,8 +138,46 @@
         </div>
       </div>
 
+      <!-- Biweekly Paycheck & Cash Flow Forecast Component -->
+      <div class="border border-[#303639] bg-[#191d20] p-6">
+        <div class="flex items-center justify-between border-b border-[#2a3033] pb-4 mb-5">
+          <div class="font-mono text-[10px] tracking-[.14em] text-lime-300">PAYCHECK & CASH FLOW FORECAST // TAX REGION: 10462</div>
+          <span class="font-mono text-[9px] text-[#737b76]">BASE: $21.00/HR + OT</span>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-3 font-mono text-xs">
+          <div class="border border-[#24292c] bg-[#131618] p-4">
+            <div class="text-[9px] text-[#727a75] mb-1">BIWEEKLY GROSS</div>
+            <div class="text-xl font-bold text-[#efeee8]">$2,467.50</div>
+            <div class="mt-2 text-[9px] text-[#858e89]">80h Regular + 25h OT (1.5x)</div>
+          </div>
+          <div class="border border-[#24292c] bg-[#131618] p-4">
+            <div class="text-[9px] text-[#727a75] mb-1">TOTAL WITHHOLDINGS</div>
+            <div class="text-[19px] font-bold text-red-400">-$846.50</div>
+            <div class="mt-2 text-[9px] text-[#858e89]">Taxes, FICA, Benefits & PFL</div>
+          </div>
+          <div class="border border-lime-300/40 bg-lime-300/[.05] p-4">
+            <div class="text-[9px] text-lime-300/80 mb-1">ESTIMATED NET PAY</div>
+            <div class="text-xl font-bold text-lime-300">~$1,617.00</div>
+            <div class="mt-2 text-[9px] text-[#727a75]">Biweekly Net Take-Home</div>
+          </div>
+        </div>
+
+        <!-- Annualized Trajectory Bar -->
+        <div class="mt-5 border-t border-[#24292c] pt-4 font-mono text-xs space-y-2">
+          <div class="flex justify-between text-[#a0a8a3] text-[11px]">
+            <span>Annualized Gross Trajectory (26 Pay Periods):</span>
+            <span class="text-lime-300 font-bold">$64,155.00/yr</span>
+          </div>
+          <div class="flex justify-between text-[#a0a8a3] text-[11px]">
+            <span>Annualized Net Take-Home Projection:</span>
+            <span class="text-[#d9ac5a] font-bold">~$42,042.00/yr</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Ledger Store Feed & Refresh Box -->
-      <div class="mt-6 border border-[#303639] bg-[#14171a] p-6">
+      <div class="border border-[#303639] bg-[#14171a] p-6">
         <div class="flex items-center justify-between border-b border-[#2a3033] pb-4 mb-5">
           <div class="flex items-center gap-2 font-mono text-[10px] tracking-[.14em] text-lime-300">
             <span class="h-2 w-2 rounded-full bg-lime-300 animate-pulse"></span> LEDGER STORE TELEMETRY (`ledger_store.json`)
