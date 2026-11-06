@@ -133,25 +133,52 @@
         </div>
       </div>
 
-      <!-- Shift Controller Box -->
+            <!-- Shift Controller Box -->
       <div class="mt-6 border border-[#303639] bg-[#191d20] p-6">
         <div class="mb-4 flex items-center justify-between font-mono text-[10px] tracking-[.14em]">
-          <span class="text-lime-300">SHIFT CONTROLLER</span>
-          <span id="liveTimerDisplay" class="text-[#89918b] hidden">ACTIVE TIME: <strong class="text-lime-300">00:00:00</strong></span>
+          <span class="text-lime-300">SHIFT CONTROLLER // DUAL MODE</span>
+          <div class="flex items-center gap-3">
+            <button type="button" onclick="switchShiftMode('live')" id="modeLiveBtn" class="text-lime-300 underline underline-offset-4">Live Timer</button>
+            <span class="text-[#4a524e]">|</span>
+            <button type="button" onclick="switchShiftMode('manual')" id="modeManualBtn" class="text-[#89918b] hover:text-white">Manual / Backfill</button>
+          </div>
         </div>
-        <div class="grid gap-4 sm:grid-cols-[150px_1fr_auto] sm:items-end">
+
+        <!-- MODE 1: Live Timer Form -->
+        <form id="liveShiftForm" class="grid gap-4 sm:grid-cols-[150px_1fr_auto] sm:items-end">
           <div>
             <label class="mb-2 block font-mono text-[9px] tracking-[.12em] text-[#89918b]">HOURLY RATE ($)</label>
-            <input id="hourlyRateInput" type="number" value="20.00" class="h-10 w-full border border-[#3a4041] bg-[#121619] px-3 font-mono text-sm text-[#e8e6dc] outline-none focus:border-lime-300" />
+            <input id="hourlyRateInput" type="number" step="0.01" value="20.00" class="h-10 w-full border border-[#3a4041] bg-[#121619] px-3 font-mono text-sm text-[#e8e6dc] outline-none focus:border-lime-300" />
           </div>
           <div>
             <label class="mb-2 block font-mono text-[9px] tracking-[.12em] text-[#89918b]">SHIFT NOTE / OPTIONAL</label>
             <input id="shiftNoteInput" type="text" placeholder="What are you working on?" class="h-10 w-full border border-[#3a4041] bg-[#121619] px-3 text-sm text-[#e8e6dc] outline-none focus:border-lime-300" />
           </div>
-          <button id="shiftButton" type="button" onclick="toggleShift()" class="inline-flex h-10 items-center justify-center bg-lime-300 px-6 font-mono text-[10px] font-medium tracking-[.1em] text-[#171a1b] hover:bg-[#d4f378] transition-colors">
+          <button id="shiftButton" type="button" onclick="toggleLiveShift()" class="inline-flex h-10 items-center justify-center bg-lime-300 px-6 font-mono text-[10px] font-medium tracking-[.1em] text-[#171a1b] hover:bg-[#d4f378] transition-colors">
             START SHIFT &rarr;
           </button>
-        </div>
+        </form>
+
+        <!-- MODE 2: Manual Backfill Form (Hidden by default) -->
+        <form id="manualShiftForm" onsubmit="submitManualShift(event)" class="hidden grid gap-4 sm:grid-cols-[130px_110px_1fr_auto] sm:items-end">
+          <div>
+            <label class="mb-2 block font-mono text-[9px] tracking-[.12em] text-[#89918b]">DATE</label>
+            <input id="manualDateInput" type="date" required class="h-10 w-full border border-[#3a4041] bg-[#121619] px-3 font-mono text-xs text-[#e8e6dc] outline-none focus:border-lime-300" />
+          </div>
+          <div>
+            <label class="mb-2 block font-mono text-[9px] tracking-[.12em] text-[#89918b]">HOURS WORKED</label>
+            <input id="manualHoursInput" type="number" step="0.25" min="0.25" placeholder="e.g. 5.5" required class="h-10 w-full border border-[#3a4041] bg-[#121619] px-3 font-mono text-sm text-[#e8e6dc] outline-none focus:border-lime-300" />
+          </div>
+          <div>
+            <label class="mb-2 block font-mono text-[9px] tracking-[.12em] text-[#89918b]">SHIFT NOTE / FOCUS</label>
+            <input id="manualNoteInput" type="text" placeholder="What did you work on?" required class="h-10 w-full border border-[#3a4041] bg-[#121619] px-3 text-sm text-[#e8e6dc] outline-none focus:border-lime-300" />
+          </div>
+          <button type="submit" class="inline-flex h-10 items-center justify-center bg-lime-300 px-6 font-mono text-[10px] font-medium tracking-[.1em] text-[#171a1b] hover:bg-[#d4f378] transition-colors">
+            LOG SHIFT &rarr;
+          </button>
+        </form>
+      </div>
+
       </div>
     </main>
   </div>
