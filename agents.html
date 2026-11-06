@@ -114,19 +114,24 @@
       <!-- Agent Grid -->
       <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
 
-        <!-- Agent 1: Nexus Core Dispatcher -->
-        <div class="border border-[#303639] bg-[#191d20] p-6 flex flex-col justify-between">
+                <!-- Agent 1: Nexus Core Dispatcher (The Digital Assistant) -->
+        <div class="border border-lime-300/40 bg-[#151a1d] p-6 flex flex-col justify-between shadow-[0_0_20px_rgba(163,230,53,0.05)]">
           <div>
             <div class="flex items-center justify-between border-b border-[#2a3033] pb-4">
               <div class="flex items-center gap-3">
-                <div class="grid h-8 w-8 place-items-center border border-lime-300/40 bg-lime-300/[.08] font-mono text-xs text-lime-300 font-bold">A1</div>
+                <!-- Persona Avatar Badge -->
+                <div class="relative h-10 w-10 overflow-hidden border border-lime-300/60 bg-black shrink-0">
+                  <img src="./assets/wolf_sheep_bust.png" alt="A1 Nexus Core" class="w-full h-full object-contain filter contrast-125" />
+                </div>
                 <div>
-                  <div class="text-sm font-medium text-[#f0efe8]">Nexus Core Dispatcher</div>
-                  <div class="font-mono text-[9px] text-[#737c77]">WORKSPACE & MULTI-AGENT ROUTER</div>
+                  <div class="text-sm font-medium text-[#f0efe8]">Nexus Core Dispatcher <span class="text-lime-300 text-xs">[A1]</span></div>
+                  <div class="font-mono text-[9px] text-[#737c77]">PRIMARY DIGITAL ASSISTANT</div>
                 </div>
               </div>
-              <span class="border border-lime-300/30 bg-lime-300/[.05] px-2 py-1 font-mono text-[8px] text-lime-300">LISTENING</span>
+              <span class="border border-lime-300/30 bg-lime-300/[.05] px-2 py-1 font-mono text-[8px] text-lime-300 animate-pulse">ACTIVE NODE</span>
             </div>
+
+            <!-- Fallback Stack Visualizer -->
             <div class="mt-4 border border-[#242a2d] bg-[#131618] p-3 font-mono text-[9px]">
               <div class="text-[#727a75] mb-1.5">FALLBACK ENGINE STACK:</div>
               <div class="flex items-center gap-1.5 text-[#c8cac2]">
@@ -134,22 +139,26 @@
                 <span class="text-[#555d58]">&rarr;</span>
                 <span>Gemini 1.5 Flash</span>
                 <span class="text-[#555d58]">&rarr;</span>
-                <span class="text-[#88908b]">Local Python Backoff Loop</span>
+                <span class="text-[#88908b]">Python Backoff Loop</span>
               </div>
             </div>
+
+            <!-- Telemetry Metrics -->
             <div class="mt-4 grid grid-cols-3 gap-2 font-mono text-[9px] border-t border-[#242a2d] pt-3 text-[#88908b]">
               <div><span class="block text-[#626b66]">LATENCY</span> <span class="text-[#e0decd]">240ms</span></div>
               <div><span class="block text-[#626b66]">QUOTA</span> <span class="text-[#e0decd]">42 / 1000 RPM</span></div>
-              <div><span class="block text-[#626b66]">HEALTH</span> <span class="text-lime-300">100% Backoff</span></div>
+              <div><span class="block text-[#626b66]">HEALTH</span> <span class="text-lime-300">100% Synced</span></div>
             </div>
           </div>
+
           <div class="mt-6 flex items-center justify-between border-t border-[#2a3033] pt-4">
-            <span class="font-mono text-[9px] text-[#737c77]">LAST DISPATCH: 12m ago</span>
-            <button onclick="dispatchAgent('Nexus Core Dispatcher', 'A1', 'Google Workspace Sync & Agent Array')" class="border border-[#3a4041] px-4 py-2 font-mono text-[9px] tracking-[.1em] text-[#c8cac2] hover:border-lime-300 hover:text-lime-300 transition">
-              DISPATCH TASK &rarr;
+            <span class="font-mono text-[9px] text-[#737c77]">STATUS: COMMAND READY</span>
+            <button onclick="dispatchAgent('Nexus Core Dispatcher', 'A1', 'Google Workspace Sync & Agent Array')" class="border border-lime-300/40 bg-lime-300/[.08] px-4 py-2 font-mono text-[9px] tracking-[.1em] text-lime-300 hover:bg-lime-300/[.18] hover:border-lime-300 transition font-bold">
+              DISPATCH ASSISTANT &rarr;
             </button>
           </div>
         </div>
+
 
         <!-- Agent 2: Persona & Social Content Engine (UPGRADED) -->
         <div class="border border-[#303639] bg-[#191d20] p-6 flex flex-col justify-between">
