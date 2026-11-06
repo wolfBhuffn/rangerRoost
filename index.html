@@ -89,18 +89,19 @@
     </div>
 
     <!-- Covert Tactical Selections (James Bond / Alter-Ego Style Naming) -->
-    <div class="w-full max-w-md space-y-4">
-      
-      <!-- Option 1: Login Gate / Operator Access -->
-        <!-- Ensure your button/link clicks invoke triggerGlitch properly -->
-  <a href="./login.html" onclick="triggerGlitch(event, './login.html', 'AUTHENTICATING OPERATOR ACCESS')" class="...">
-    [ ENGAGE OPERATOR LOGIN ]
+    <!-- Action Buttons Container -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+  <!-- Operator Login Button -->
+  <a href="./console.html" class="w-full sm:w-auto inline-flex items-center justify-center border border-lime-300/40 bg-lime-300/[.08] px-6 py-3 font-mono text-[10px] tracking-[.2em] text-lime-300 hover:bg-lime-300/[.18] hover:border-lime-300 transition uppercase shadow-[0_0_15px_rgba(163,230,53,0.1)]">
+    &gt; Engage Operator Login
   </a>
 
-  <a href="./dashboard.html" onclick="triggerGlitch(event, './dashboard.html', 'INFILTRATING GUEST COVER IDENTITY')" class="...">
-    [ INFILTRATE / GUEST COVER ]
+  <!-- Infiltrate / Guest Cover Button -->
+  <a href="./dashboard.html" class="w-full sm:w-auto inline-flex items-center justify-center border border-[#3a4041] bg-[#191d20] px-6 py-3 font-mono text-[10px] tracking-[.2em] text-[#d0d2cc] hover:border-lime-300 hover:text-lime-300 transition uppercase">
+    Infiltrate / Guest Cover
   </a>
-    </div>
+</div>
+
 
   </main>
 
