@@ -187,7 +187,7 @@
   </div>
 
   <!-- Dashboard Functionality Scripts -->
-  <script>
+    <script>
     function toggleMobileDrawer() {
       const drawer = document.getElementById('mobileDrawer');
       drawer.classList.toggle('hidden');
@@ -198,6 +198,11 @@
       const todayStr = new Date().toISOString().split('T')[0];
       const dateInput = document.getElementById('manualDateInput');
       if (dateInput) dateInput.value = todayStr;
+
+      // Force initial metric sync from localStorage ledger
+      if (typeof syncUI === 'function') {
+        syncUI();
+      }
     });
 
     // Switcher between Live Timer and Manual Backfill modes
@@ -226,7 +231,7 @@
       const dateVal = document.getElementById('manualDateInput').value;
       const hoursVal = parseFloat(document.getElementById('manualHoursInput').value);
       const noteVal = document.getElementById('manualNoteInput').value.trim();
-      const rateVal = 21.00;
+      const rateVal = parseFloat(document.getElementById('hourlyRateInput').value) || 21.00;
 
       if (!dateVal || isNaN(hoursVal) || hoursVal <= 0) {
         alert('Please enter a valid date and number of hours.');
@@ -254,9 +259,23 @@
       document.getElementById('manualNoteInput').value = '';
       document.getElementById('manualHoursInput').value = '';
 
-      if (typeof syncUI === 'function') syncUI();
+      // Immediately refresh UI metrics
+      if (typeof syncUI === 'function') {
+        syncUI();
+      }
+    }
+
+    // Connect live shift trigger to shared sync script function if available
+    function toggleLiveShift() {
+      if (typeof toggleShift === 'function') {
+        toggleShift();
+      } else {
+        console.warn('shiftSync.js not fully loaded yet.');
+      }
     }
   </script>
+  <script src="./assets/shiftSync.js"></script>
+
 
   <!-- Shared Sync Script -->
   <script src="./assets/shiftSync.js"></script>
