@@ -3,12 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RANGER_ROOST / Terminal CLI</title>
+  <title>RANGER_ROOST / Web Terminal (CLI)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>body { font-family: 'Space Grotesk', sans-serif; }</style>
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; }
+    .cli-scrollbar::-webkit-scrollbar { width: 6px; }
+    .cli-scrollbar::-webkit-scrollbar-thumb { background: #292e31; }
+  </style>
 </head>
 <body class="min-h-screen bg-[#101216] text-[#e9e7df] antialiased">
 
@@ -82,7 +86,7 @@
         <div class="truncate font-mono text-[9px] sm:text-[10px] tracking-[.14em] text-[#89918c]">
           <span class="hidden sm:inline">WOLFX__XSABYTERS &gt; </span>
           <span class="hidden sm:inline">RANGER_ROOST &gt; </span>
-          <span class="text-lime-300 uppercase">CLI</span>
+          <span class="text-lime-300 uppercase">WEB TERMINAL (CLI)</span>
         </div>
       </div>
 
@@ -98,98 +102,182 @@
     </header>
 
     <main class="mx-auto max-w-[1440px] px-5 py-8 md:px-10 md:py-10">
-      <div class="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-        <div>
-          <div class="mb-3 flex items-center gap-2 font-mono text-[9px] tracking-[.2em] text-lime-300">
-            <span class="h-px w-5 bg-lime-300"></span>RANGER_ROOST / TERMINAL INTERFACE
+      
+      <!-- Terminal Frame -->
+      <div class="border border-[#303639] bg-[#0c0e10] font-mono shadow-2xl flex flex-col h-[calc(100vh-180px)] min-h-[500px]">
+        
+        <!-- Terminal Titlebar -->
+        <div class="flex items-center justify-between border-b border-[#22272a] bg-[#14171a] px-4 py-3 shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="h-3 w-3 rounded-full bg-red-500/80 inline-block"></span>
+            <span class="h-3 w-3 rounded-full bg-amber-500/80 inline-block"></span>
+            <span class="h-3 w-3 rounded-full bg-lime-500/80 inline-block"></span>
+            <span class="ml-2 text-[10px] tracking-[.15em] text-[#8c948e]">kwame@macbook-pro: ~/Ranger_Roost (zsh)</span>
           </div>
-          <h1 class="text-3xl font-medium tracking-[-.05em] text-[#efeee8] md:text-4xl">Command Line Interface</h1>
-          <p class="mt-2 text-sm text-[#858e89]">Execute direct system queries, logs, and agent dispatches via text command.</p>
+          <div class="text-[9px] text-lime-300/80">INTERACTIVE SHELL ONLINE</div>
         </div>
+
+        <!-- Terminal Output Stream -->
+        <div id="terminalStream" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3 text-xs text-[#c5c8c0] cli-scrollbar">
+          <div class="text-[#626b66]">
+            RANGER_ROOST Operating System [Version 1.0.42]<br/>
+            (c) 2026 WOLFX__XSABYTERS. All rights reserved.<br/>
+            Type <span class="text-lime-300 font-bold">'help'</span> to surface available command suite.
+          </div>
+        </div>
+
+        <!-- Terminal Input Row -->
+        <div class="border-t border-[#22272a] bg-[#101216] p-3 sm:p-4 flex items-center gap-3 shrink-0">
+          <span class="text-lime-300 font-bold text-xs sm:text-sm select-none">kwame@ranger-roost:~$</span>
+          <input 
+            type="text" 
+            id="cliInput" 
+            placeholder="Type a command (e.g. help, status, ledger)..." 
+            autofocus 
+            autocomplete="off"
+            spellcheck="false"
+            class="w-full bg-transparent text-xs sm:text-sm text-[#efeee8] outline-none font-mono placeholder:text-[#4a524e]"
+          />
+        </div>
+
       </div>
 
-      <!-- Terminal Window Box -->
-      <div class="border border-[#303639] bg-[#14171a] font-mono text-xs text-[#c5c8c0]">
-        <div class="flex items-center justify-between border-b border-[#2a3033] bg-[#191d20] px-4 py-3">
-          <div class="flex items-center gap-2 text-[10px] tracking-[.15em] text-[#838b86]">
-            <span class="h-2 w-2 rounded-full bg-lime-300"></span> zsh — ranger_roost@macbook-pro:~
-          </div>
-          <div class="text-[9px] text-[#636c67]">UTF-8</div>
-        </div>
-
-        <div id="terminalOutput" class="min-h-[420px] max-h-[560px] overflow-y-auto p-6 space-y-4 text-[13px]">
-          <div class="text-[#727a75]">Last login: Thu Nov  5 17:44:00 on ttys042</div>
-          <div>RANGER_ROOST v1.0.42 [Modular Static Build]</div>
-          <div>Type <span class="text-lime-300">help</span> to view available system commands.</div>
-        </div>
-
-        <!-- Input Form Line -->
-        <form id="cliForm" class="flex items-center border-t border-[#2a3033] bg-[#121518] px-4 py-3">
-          <span class="text-lime-300 font-bold mr-3">&gt;</span>
-          <input type="text" id="cliInput" autofocus autocomplete="off" placeholder="Type a command (e.g. status, shifts, networth, help)..." class="w-full bg-transparent text-[#e9e7df] outline-none font-mono text-[13px]" />
-        </form>
-      </div>
     </main>
   </div>
 
   <script>
     function toggleMobileDrawer() {
       const drawer = document.getElementById('mobileDrawer');
-      if (drawer) {
-        drawer.classList.toggle('hidden');
-      }
+      if (drawer) drawer.classList.toggle('hidden');
     }
 
-    const form = document.getElementById('cliForm');
     const input = document.getElementById('cliInput');
-    const output = document.getElementById('terminalOutput');
+    const stream = document.getElementById('terminalStream');
+    let commandHistory = [];
+    let historyIndex = -1;
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const val = input.value.trim();
-      if (!val) return;
-
-      // Print user prompt
-      const userLine = document.createElement('div');
-      userLine.innerHTML = `<span class="text-lime-300">&gt;</span> <span class="text-[#f1f0e9]">${escapeHtml(val)}</span>`;
-      output.appendChild(userLine);
-
-      // Process command response
-      const resLine = document.createElement('div');
-      resLine.className = 'text-[#8c948e] pl-4';
-
-      const cmd = val.toLowerCase();
-      if (cmd === 'help') {
-        resLine.innerHTML = `Available commands:<br>
-          - <b class="text-lime-300">status</b>: Display active system status and uptime.<br>
-          - <b class="text-lime-300">shifts</b>: Summarize current shift metrics and hourly earnings.<br>
-          - <b class="text-lime-300">networth</b>: Pull latest telemetry ledger store.<br>
-          - <b class="text-lime-300">clear</b>: Wipe terminal display history.<br>
-          - <b class="text-lime-300">reload</b>: Refresh web interface node connections.`;
-      } else if (cmd === 'status') {
-        resLine.innerHTML = `SYSTEM ONLINE: RANGER_ROOST v1.0.42 running on GitHub Pages.<br>Operator: Kwame Antonio Lockley [WOLFX__XSABYTERS].`;
-      } else if (cmd === 'shifts') {
-        resLine.innerHTML = `Active Rate: $20.00/hr | Weekly Hours: 24.5h | Total Earned: $490.00`;
-      } else if (cmd === 'networth') {
-        resLine.innerHTML = `ledger_store.json synced successfully. Margin telemetry stable.`;
-      } else if (cmd === 'clear') {
-        output.innerHTML = '';
-        input.value = '';
-        return;
-      } else if (cmd === 'reload') {
-        resLine.innerHTML = `Reloading local node connections... Done.`;
-      } else {
-        resLine.innerHTML = `zsh: command not found: ${escapeHtml(val)}. Type <span class="text-lime-300">help</span> for assistance.`;
+    const COMMANDS = {
+      help: `
+<span class="text-lime-300 font-bold">AVAILABLE COMMAND SUITE:</span>
+  <span class="text-lime-300">status</span>      - Display operational node status & cloud latency.
+  <span class="text-lime-300">ledger</span>      - Read current payroll records & logged hours.
+  <span class="text-lime-300">agents</span>      - Inspect active AI agents & model fallback stack.
+  <span class="text-lime-300">dispatch A1</span>  - Send test ping to Nexus Core Dispatcher.
+  <span class="text-lime-300">networth</span>    - Fetch live telemetry from ledger_store.json.
+  <span class="text-lime-300">sync</span>        - Trigger manual ledger store synchronization.
+  <span class="text-lime-300">matrix</span>      - Toggle security disguise gate overlay.
+  <span class="text-lime-300">whoami</span>      - Display current authenticated operator handle.
+  <span class="text-lime-300">clear</span>       - Wipe terminal screen buffer.
+`,
+      status: `
+[SYSTEM STATUS REPORT]
+  - NODE ENVIRONMENT : macOS zsh / MacBook Pro
+  - DEPLOYMENT TARGET: GitHub Pages & Render Cloud
+  - BACKEND ENDPOINT : https://wolf-command-hub.onrender.com (200 OK)
+  - MARGIN HEALTH    : 18.4% (Stable)
+  - CURRENT BUILD    : RANGER_ROOST v1.0.42
+`,
+      whoami: `
+OPERATOR IDENTIFIER: Kwame Antonio Lockley [wolfsabyter]
+ROLES              : Private Operator / Software Architect
+WORKSPACE PATH     : /Users/wolfsabyter/Documents/Projects/Ranger_Roost
+`,
+      ledger: () => {
+        const ledgerKey = 'rr_shifts_ledger';
+        const ledger = JSON.parse(localStorage.getItem(ledgerKey)) || [
+          { date: '2026-11-05', note: 'Ranger_Roost static layout & CLI', hours: 6.5, total: 130.00 },
+          { date: '2026-11-04', note: 'Multi-agent fallback array integration', hours: 8.0, total: 160.00 }
+        ];
+        let out = `<span class="text-lime-300 font-bold">[LOCAL SHIFT LEDGER REPOSITORIES]</span>\n`;
+        ledger.forEach(s => {
+          out += `  [${s.date}] ${s.hours}h @ $20/hr | $${parseFloat(s.total).toFixed(2)} | Note: ${s.note}\n`;
+        });
+        return out;
+      },
+      agents: `
+[ACTIVE AGENT MATRIX]
+  [A1] Nexus Core Dispatcher           - Listening (Gemini 1.5 Pro)
+  [A2] Persona & Social Content Engine - Ready (Gemini 1.5 Flash)
+  [A3] Telemetry & Ledger Guard        - Auto-Loop 30s (Python Worker)
+  [A4] Web Automation & Scraper        - Idle (Playwright Python)
+`,
+      networth: `
+[ASSET TELEMETRY LOGS]
+  Total Asset Value: $24,850.00
+  Liquid Reserves  : $8,420.00
+  Trading Margin   : $12,430.00
+  Hardware/Equip   : $4,000.00 (MacBook Pro)
+`,
+      sync: () => {
+        return `<span class="text-lime-300">[OK]</span> ` + new Date().toISOString() + ` -> ledger_store.json synced with local storage!`;
+      },
+      matrix: () => {
+        setTimeout(() => { window.location.href = './index.html'; }, 600);
+        return `<span class="text-amber-400">Locking terminal session. Routing to authentication gate...</span>`;
       }
+    };
 
-      output.appendChild(resLine);
-      input.value = '';
-      output.scrollTop = output.scrollHeight;
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const cmdText = input.value.trim();
+        if (!cmdText) return;
+
+        // Command history management
+        commandHistory.push(cmdText);
+        historyIndex = commandHistory.length;
+
+        // Print input prompt line
+        const promptDiv = document.createElement('div');
+        promptDiv.innerHTML = `<span class="text-lime-300 font-bold">kwame@ranger-roost:~$</span> ${escapeHtml(cmdText)}`;
+        stream.appendChild(promptDiv);
+
+        // Process command
+        const lower = cmdText.toLowerCase();
+        let output = '';
+
+        if (lower === 'clear') {
+          stream.innerHTML = '';
+          input.value = '';
+          return;
+        } else if (COMMANDS[lower]) {
+          output = typeof COMMANDS[lower] === 'function' ? COMMANDS[lower]() : COMMANDS[lower];
+        } else if (lower.startsWith('dispatch')) {
+          output = `<span class="text-lime-300">[A1 DISPATCHED]</span> Execution ping sent to Nexus Core Dispatcher... Task status: 200 OK.`;
+        } else {
+          output = `<span class="text-red-400">zsh: command not found: ${escapeHtml(cmdText)}.</span> Type <span class="text-lime-300">'help'</span> for available commands.`;
+        }
+
+        // Print command response
+        const respDiv = document.createElement('div');
+        respDiv.className = 'whitespace-pre-wrap leading-relaxed text-[#dfded5]';
+        respDiv.innerHTML = output;
+        stream.appendChild(respDiv);
+
+        input.value = '';
+        stream.scrollTop = stream.scrollHeight;
+
+      } else if (e.key === 'ArrowUp') {
+        if (historyIndex > 0) {
+          historyIndex--;
+          input.value = commandHistory[historyIndex];
+        }
+      } else if (e.key === 'ArrowDown') {
+        if (historyIndex < commandHistory.length - 1) {
+          historyIndex++;
+          input.value = commandHistory[historyIndex];
+        } else {
+          historyIndex = commandHistory.length;
+          input.value = '';
+        }
+      }
     });
 
     function escapeHtml(text) {
       return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
   </script>
+
+  <!-- Shared Local Storage Sync -->
+  <script src="./assets/shiftSync.js"></script>
 </body>
 </html>
