@@ -126,260 +126,69 @@
           </div>
         </div>
 
-        <!-- Terminal Input Row -->
-        <div class="border-t border-[#22272a] bg-[#101216] p-3 sm:p-4 flex items-center gap-3 shrink-0">
-          <span class="text-lime-300 font-bold text-xs sm:text-sm select-none">kwame@ranger-roost:~$</span>
-          <input 
-            type="text" 
-            id="cliInput" 
-            placeholder="Type a command (e.g. help, status, logshift)..." 
-            autofocus 
-            autocomplete="off"
-            spellcheck="false"
-            class="w-full bg-transparent text-xs sm:text-sm text-[#efeee8] outline-none font-mono placeholder:text-[#4a524e]"
-          />
+        <div id="terminalOutput" class="min-h-[420px] max-h-[560px] overflow-y-auto p-6 space-y-4 text-[13px]">
+          <div class="text-[#727a75]">Last login: Thu Nov  5 17:44:00 on ttys042</div>
+          <div>RANGER_ROOST v1.0.42 [Modular Static Build]</div>
+          <div>Type <span class="text-lime-300">help</span> to view available system commands.</div>
         </div>
 
+        <!-- Input Form Line -->
+        <form id="cliForm" class="flex items-center border-t border-[#2a3033] bg-[#121518] px-4 py-3">
+          <span class="text-lime-300 font-bold mr-3">&gt;</span>
+          <input type="text" id="cliInput" autofocus autocomplete="off" placeholder="Type a command (e.g. status, shifts, networth, help)..." class="w-full bg-transparent text-[#e9e7df] outline-none font-mono text-[13px]" />
+        </form>
       </div>
 
     </main>
   </div>
 
-    <script>
-    function toggleMobileDrawer() {
-      const drawer = document.getElementById('mobileDrawer');
-      if (drawer) drawer.classList.toggle('hidden');
-    }
+  <script>
+    const form = document.getElementById('cliForm');
+    const input = document.getElementById('cliInput');
+    const output = document.getElementById('terminalOutput');
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const input = document.getElementById('cliInput');
-      const stream = document.getElementById('terminalStream');
-      if (!input || !stream) return;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = input.value.trim();
+      if (!val) return;
 
-      let commandHistory = [];
-      let historyIndex = -1;
+      // Print user prompt
+      const userLine = document.createElement('div');
+      userLine.innerHTML = `<span class="text-lime-300">&gt;</span> <span class="text-[#f1f0e9]">${escapeHtml(val)}</span>`;
+      output.appendChild(userLine);
 
-      // Helper: HTML Escaping
-      function escapeHtml(text) {
-        return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      // Process command response
+      const resLine = document.createElement('div');
+      resLine.className = 'text-[#8c948e] pl-4';
+
+      const cmd = val.toLowerCase();
+      if (cmd === 'help') {
+        resLine.innerHTML = `Available commands:<br>
+          - <b class="text-lime-300">status</b>: Display active system status and uptime.<br>
+          - <b class="text-lime-300">shifts</b>: Summarize current shift metrics and hourly earnings.<br>
+          - <b class="text-lime-300">networth</b>: Pull latest telemetry ledger store.<br>
+          - <b class="text-lime-300">clear</b>: Wipe terminal display history.<br>
+          - <b class="text-lime-300">reload</b>: Refresh web interface node connections.`;
+      } else if (cmd === 'status') {
+        resLine.innerHTML = `SYSTEM ONLINE: RANGER_ROOST v1.0.42 running on GitHub Pages.<br>Operator: Kwame Antonio Lockley [WOLFX__XSABYTERS].`;
+      } else if (cmd === 'shifts') {
+        resLine.innerHTML = `Active Rate: $20.00/hr | Weekly Hours: 24.5h | Total Earned: $490.00`;
+      } else if (cmd === 'networth') {
+        resLine.innerHTML = `ledger_store.json synced successfully. Margin telemetry stable.`;
+      } else if (cmd === 'clear') {
+        output.innerHTML = '';
+        input.value = '';
+        return;
+      } else if (cmd === 'reload') {
+        resLine.innerHTML = `Reloading local node connections... Done.`;
+      } else {
+        resLine.innerHTML = `zsh: command not found: ${escapeHtml(val)}. Type <span class="text-lime-300">help</span> for assistance.`;
       }
 
-      // --- SUB-COMMAND ROUTER & SUITE ---
-      const ROUTER = {
-        help: () => `
-<span class="text-lime-300 font-bold">RANGER_ROOST SUB-COMMAND SYSTEM (v1.0.42-MODULAR):</span>
-
-  <span class="text-lime-300">agent</span> &lt;subcommand&gt;
-    <span class="text-[#88908b]">list</span>        - Display active agent matrix nodes & fallback engines.
-    <span class="text-[#88908b]">dispatch</span>    - Dispatch task (e.g., <span class="text-[#e0decd]">agent dispatch A1</span> or <span class="text-[#e0decd]">agent dispatch all</span>).
-    <span class="text-[#88908b]">status</span>      - Check agent quota, backoff status, and latency.
-
-  <span class="text-lime-300">shift</span> &lt;subcommand&gt;
-    <span class="text-[#88908b]">log</span>         - Quick-log a shift (e.g., <span class="text-[#e0decd]">shift log 6.5 Refactor terminal router</span>).
-    <span class="text-[#88908b]">list</span>        - Print recent logged shifts from ledger.
-    <span class="text-[#88908b]">purge</span>       - Clear local shift storage (Confirmation required).
-
-  <span class="text-lime-300">sys</span> &lt;subcommand&gt;
-    <span class="text-[#88908b]">status</span>      - Node environment, health checks & deployment target.
-    <span class="text-[#88908b]">env</span>         - Active environment flags and paths.
-    <span class="text-[#88908b]">lock</span>        - Engage disguise gate overlay & lock session.
-
-  <span class="text-lime-300">networth</span> &lt;subcommand&gt;
-    <span class="text-[#88908b]">summary</span>     - Display asset breakdown & margin metrics.
-    <span class="text-[#88908b]">paycheck</span>    - Print biweekly gross/net calculations (ZIP 10462).
-
-  <span class="text-lime-300">calc</span> &lt;expr&gt;   - Evaluate math (e.g., <span class="text-[#e0decd]">calc (80 * 21) + (25 * 31.5)</span>).
-  <span class="text-lime-300">whoami</span>        - Display active operator profile.
-  <span class="text-lime-300">history</span>       - View command execution log.
-  <span class="text-lime-300">clear</span>         - Wipe screen buffer.
-`,
-
-        agent: (args) => {
-          const sub = (args[0] || '').toLowerCase();
-          if (sub === 'list') {
-            return `
-[ACTIVE AGENT MATRIX]
-  [A1] Nexus Core Dispatcher           - Listening (Gemini 1.5 Pro)
-  [A2] Persona & Social Content Engine - Ready (Gemini 1.5 Flash)
-  [A3] Telemetry & Ledger Guard        - Auto-Loop 30s (Python Worker)
-  [A4] Web Automation & Scraper        - Idle (Playwright Python)
-`;
-          } else if (sub === 'dispatch') {
-            const target = (args[1] || 'A1').toUpperCase();
-            return `<span class="text-lime-300">[AGENT DISPATCHED]</span> Task successfully routed to node <span class="text-amber-400">[${target}]</span>. Executing multi-model fallback stack... Status: 200 OK.`;
-          } else if (sub === 'status') {
-            return `
-[AGENT METRICS]
-  - A1 Quota   : 42 / 1000 RPM (240ms Latency)
-  - A2 Engine  : TikTok Shop / X / YouTube Generator Active
-  - A3 Ledger  : 30s Auto-Sync Active
-`;
-          } else {
-            return `<span class="text-amber-400">Usage: agent &lt;list | dispatch [A1|A2|A3|A4|all] | status&gt;</span>`;
-          }
-        },
-
-        shift: (args) => {
-          const sub = (args[0] || '').toLowerCase();
-          if (sub === 'log') {
-            const hrs = parseFloat(args[1]);
-            const note = args.slice(2).join(' ') || 'CLI shift log';
-            if (isNaN(hrs) || hrs <= 0) {
-              return `<span class="text-red-400">Error: Usage 'shift log &lt;hours&gt; &lt;note&gt;' (e.g., shift log 6.5 Terminal sub-command refactor)</span>`;
-            }
-            const rate = 21.00;
-            const total = hrs * rate;
-            const newShift = {
-              id: Date.now(),
-              date: new Date().toISOString().split('T')[0],
-              note: note,
-              rate: rate,
-              hours: hrs,
-              total: total
-            };
-            let ledger = JSON.parse(localStorage.getItem('rr_shifts_ledger')) || [];
-            ledger.unshift(newShift);
-            localStorage.setItem('rr_shifts_ledger', JSON.stringify(ledger));
-            return `<span class="text-lime-300">[SHIFT LOGGED]</span> Date: ${newShift.date} | Hours: ${hrs}h | Total: $${total.toFixed(2)} | Note: "${note}"`;
-          } else if (sub === 'list') {
-            const ledger = JSON.parse(localStorage.getItem('rr_shifts_ledger')) || [];
-            if (ledger.length === 0) return `<span class="text-[#89918b]">No shift records found in local ledger.</span>`;
-            let out = `<span class="text-lime-300 font-bold">[RECENT SHIFT ENTRIES (${ledger.length} total)]</span>\n`;
-            ledger.slice(0, 5).forEach(s => {
-              out += `  [${s.date}] ${s.hours}h | $${parseFloat(s.total).toFixed(2)} | ${s.note}\n`;
-            });
-            return out;
-          } else if (sub === 'purge') {
-            localStorage.setItem('rr_shifts_ledger', JSON.stringify([]));
-            return `<span class="text-red-400">[LEDGER PURGED]</span> Local shift history has been wiped.`;
-          } else {
-            return `<span class="text-amber-400">Usage: shift &lt;log &lt;hrs&gt; &lt;note&gt; | list | purge&gt;</span>`;
-          }
-        },
-
-        sys: (args) => {
-          const sub = (args[0] || '').toLowerCase();
-          if (sub === 'status') {
-            return `
-[SYSTEM STATUS REPORT]
-  - NODE ENVIRONMENT : macOS zsh / MacBook Pro
-  - DEPLOYMENT TARGET: GitHub Pages & Render Cloud
-  - OVERTIME ENGINE  : Active (Threshold: 40.0h @ $21.00/hr, OT @ $31.50/hr)
-  - SYSTEM HEALTH    : 100% Operational (200 OK)
-`;
-          } else if (sub === 'env') {
-            return `
-[ENVIRONMENT CONFIG]
-  USER               = kwame
-  SHELL              = /bin/zsh
-  HOST               = macbook-pro-nexus.local
-  STORAGE_ENGINE     = localStorage (rr_shifts_ledger, ledger_store.json)
-`;
-          } else if (sub === 'lock') {
-            setTimeout(() => { window.location.href = './index.html'; }, 600);
-            return `<span class="text-amber-400 font-bold">[SECURITY GATE TRIGGERED]</span> Initializing disguise gate overlay... Routing to index.html`;
-          } else {
-            return `<span class="text-amber-400">Usage: sys &lt;status | env | lock&gt;</span>`;
-          }
-        },
-
-        networth: (args) => {
-          const sub = (args[0] || '').toLowerCase();
-          if (sub === 'paycheck') {
-            return `
-[PAYCHECK & CASH FLOW FORECAST // REGION: 10462]
-  - Biweekly Gross : $2,467.50 (80h Reg + 25h OT)
-  - Total Deductions: -$846.50 (Taxes, FICA, Benefits, PFL)
-  - Net Take-Home  : ~$1,617.00
-  - Annual Trajectory: $64,155.00 Gross / ~$42,042.00 Net
-`;
-          } else {
-            return `
-[ASSET TELEMETRY LOGS]
-  Total Asset Value : $24,850.00
-  Liquid Reserves   : $8,420.00
-  Trading Margin    : $12,430.00 (Tradovate / Coinbase Futures)
-  Hardware/Equip    : $4,000.00 (MacBook Pro)
-`;
-          }
-        },
-
-        whoami: () => `OPERATOR: Kwame Antonio Lockley [wolfsabyter] | ROLE: Solo Operator / Full-Stack Architect`,
-
-        calc: (args) => {
-          try {
-            const expr = args.join(' ');
-            if (!expr) return `<span class="text-amber-400">Usage: calc &lt;expression&gt; (e.g. calc 2467.50 - 846.50)</span>`;
-            // Safe evaluation using Function constructor
-            const result = Function('"use strict"; return (' + expr + ')')();
-            return `<span class="text-lime-300">=</span> ${result}`;
-          } catch (err) {
-            return `<span class="text-red-400">calc error: invalid expression</span>`;
-          }
-        },
-
-        history: () => {
-          if (commandHistory.length === 0) return `No commands executed in current session.`;
-          return `<span class="text-lime-300 font-bold">[SESSION COMMAND HISTORY]</span>\n` + commandHistory.map((cmd, i) => `  ${i+1}  ${cmd}`).join('\n');
-        }
-      };
-
-      // --- INPUT EVENT HANDLER ---
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          const fullCmd = input.value.trim();
-          if (!fullCmd) return;
-
-          commandHistory.push(fullCmd);
-          historyIndex = commandHistory.length;
-
-          // Print user input line
-          const promptDiv = document.createElement('div');
-          promptDiv.innerHTML = `<span class="text-lime-300 font-bold">kwame@ranger-roost:~$</span> ${escapeHtml(fullCmd)}`;
-          stream.appendChild(promptDiv);
-
-          const tokens = fullCmd.split(' ');
-          const mainCmd = tokens[0].toLowerCase();
-          const subArgs = tokens.slice(1);
-          let output = '';
-
-          try {
-            if (mainCmd === 'clear') {
-              stream.innerHTML = '';
-              input.value = '';
-              return;
-            } else if (ROUTER[mainCmd]) {
-              output = ROUTER[mainCmd](subArgs);
-            } else {
-              output = `<span class="text-red-400">zsh: command not found: ${escapeHtml(mainCmd)}.</span> Type <span class="text-lime-300">'help'</span> for available sub-command suite.`;
-            }
-          } catch (err) {
-            output = `<span class="text-red-400">Execution Error: ${escapeHtml(err.message)}</span>`;
-          }
-
-          // Output response
-          const respDiv = document.createElement('div');
-          respDiv.className = 'whitespace-pre-wrap leading-relaxed text-[#dfded5]';
-          respDiv.innerHTML = output;
-          stream.appendChild(respDiv);
-
-          input.value = '';
-          stream.scrollTop = stream.scrollHeight;
-        } else if (e.key === 'ArrowUp' && historyIndex > 0) {
-          historyIndex--;
-          input.value = commandHistory[historyIndex];
-        } else if (e.key === 'ArrowDown' && historyIndex < commandHistory.length - 1) {
-          historyIndex++;
-          input.value = commandHistory[historyIndex];
-        } else if (e.key === 'ArrowDown') {
-          historyIndex = commandHistory.length;
-          input.value = '';
-        }
-      });
+      output.appendChild(resLine);
+      input.value = '';
+      output.scrollTop = output.scrollHeight;
     });
   </script>
-
-  <!-- Shared Sync Script -->
-  <script src="./assets/shiftSync.js"></script>
 </body>
 </html>
