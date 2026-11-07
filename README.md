@@ -1,5 +1,3 @@
-Here is a comprehensive, production-ready final draft for your README.md file, tailored to your RANGER_ROOST command hub and multi-agent workspace architecture.
-
 # ⚡ RANGER_ROOST // WOLFX__XSABYTERS COMMAND HUB
 
 > Local-to-cloud multi-agent orchestration, automated ledger telemetry, and high-impact workspace coordination running on macOS zsh infrastructure.
@@ -29,7 +27,7 @@ Here is a comprehensive, production-ready final draft for your README.md file, t
 
 ## 🛠️ Tech Stack
 
-* **Frontend:** HTML5, Vanilla JavaScript, Tailwind CSS (via CDN), custom CSS glitch animations & RGB split overlays.
+* **Frontend:** HTML5, Vanilla JavaScript, Tailwind CSS, custom CSS glitch animations & RGB split overlays.
 * **Backend & CLI:** Python (`http.server`, localized `venv`), zsh terminal automation.
 * **AI & Orchestration:** Google Gemini API multi-agent framework, custom lexicon routers.
 * **Version Control & Hosting:** Terminal-first Git workflow, deployed instances on Render cloud hosting.
@@ -37,6 +35,8 @@ Here is a comprehensive, production-ready final draft for your README.md file, t
 ---
 
 ## 📂 Project Structure
+
+```text
 Ranger_Roost/
 ├── index.html          # Operator Homepage & Global Dashboard Navigation
 ├── console.html        # AI Command Console & Multi-Agent Dispatch
@@ -47,34 +47,40 @@ Ranger_Roost/
 ├── login.html          # Secure Access Portal with Matrix/Glitch Gate
 ├── assets/             # Brand Imagery & Wolf/Sheep Visual Assets
 └── server.py           # Local Python HTTP Server & Routing Backend
-
-
-🚀 Quick Start & Local Setup
-
-1. Clone the repository:
-   git clone [https://github.com/wolfBhuffn/rangerRoost.git](https://github.com/wolfBhuffn/rangerRoost.git)
-   cd Ranger_Roost
-   
-2. Set up your local Python environment:
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
-   
-3. Launch the local development server:
-   python3 -m http.server 8000
-   
-4. Access the command hub:
-   Open your browser and navigate to http://localhost:8000/index.html.
-
-🔒 Operator Details & Maintenance
-
-⚬ Primary Operator: Kwame Antonio Lockley (wolfsabyter)
-⚬ Default Base Hourly Rate: $20.00 / HR (configured for payroll reconciliation)
-⚬ Sync Frequency: 30-second automated ledger loop
-
-RANGER_ROOST // WOLFX__XSABYTERS — All Rights Reserved.
-
+```
 
 ---
 
-<FollowUp label="Want me to save or write this directly into a file in your project directory?" query="Yes, write this README.md file directly into my project directory."/>
+## 🚀 Quick Start & Local Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/wolfBhuffn/rangerRoost.git
+   cd Ranger_Roost
+   ```
+
+2. **Set up your local Python environment:**
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
+
+3. **Launch the local development server:**
+   ```bash
+   python3 -m http.server 8000
+   ```
+
+4. **Access the command hub:**
+   Open your browser and navigate to `http://localhost:8000/index.html`.
+
+---
+
+## 🔒 Operator Details & Maintenance
+
+* **Primary Operator:** Kwame Antonio Lockley (`wolfsabyter`)
+* **Default Base Hourly Rate:** $20.00 / HR (configured for payroll reconciliation)
+* **Sync Frequency:** 30-second automated ledger loop
+
+---
+*RANGER_ROOST // WOLFX__XSABYTERS — All Rights Reserved.*
