@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RANGER_ROOST / SCFU Operations & Compliance</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; }
+    .cli-scrollbar::-webkit-scrollbar { width: 6px; }
+    .cli-scrollbar::-webkit-scrollbar-thumb { background: #292e31; }
+  </style>
+</head>
+<body class="min-h-screen bg-[#101216] text-[#e9e7df] antialiased">
+
+  <!-- Mobile Drawer Overlay Panel -->
+  <div id="mobileDrawer" class="fixed inset-0 z-40 hidden bg-black/80 backdrop-blur-sm transition-opacity" onclick="toggleMobileDrawer()">
+    <div class="fixed inset-y-0 left-0 w-64 border-r border-[#292e31] bg-[#131619]/95 backdrop-blur-md p-6 text-[#e9e7df]" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between border-b border-[#292e31] pb-4 mb-6">
+        <div class="font-mono text-xs font-bold text-[#f0efe8]">RANGER<span class="text-lime-300">_ROOST</span></div>
+        <button onclick="toggleMobileDrawer()" class="font-mono text-xs text-[#747c7d] hover:text-white focus:outline-none">[X]</button>
+      </div>
+      <div class="space-y-2 font-mono text-xs">
+        <a href="./index.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Home / Landing</a>
+        <a href="./dashboard.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Overview</a>
+        <a href="./console.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Console</a>
+        <a href="./shifts.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Shift History</a>
+        <a href="./cli.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Terminal (CLI)</a>
+        <a href="./networth.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Net Worth</a>
+        <a href="./scfu.html" class="block py-2 text-lime-300">SCFU Operations</a>
+        <a href="./agents.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Agents</a>
+        <a href="./analytics.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Analytics</a>
+        <a href="./settings.html" class="block py-2 text-[#9ba29d] hover:text-lime-300">Settings</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="fixed inset-y-0 left-0 z-30 hidden w-[252px] flex-col border-r border-[#292e31] bg-[#131619] md:flex">
+    <div class="flex h-[86px] items-center border-b border-[#292e31] px-6">
+      <a href="./index.html" class="flex items-center gap-3 transition hover:opacity-80">
+        <div class="relative grid h-10 w-10 place-items-center border border-lime-300/50 bg-lime-300/[.08] text-lime-300 font-mono font-bold">&gt;_</div>
+        <div class="leading-none">
+          <div class="font-mono text-[13px] font-medium tracking-[.12em] text-[#f0efe8]">RANGER<span class="text-lime-300">_ROOST</span></div>
+          <div class="mt-1.5 font-mono text-[9px] tracking-[.22em] text-[#747c7d]">WOLFX__XSABYTERS</div>
+        </div>
+      </a>
+    </div>
+    <div class="px-5 pt-7 overflow-y-auto space-y-1">
+      <div class="mb-3 font-mono text-[9px] tracking-[.2em] text-[#68716e]">COMMAND</div>
+      <a href="./console.html" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Console</a>
+      <a href="./dashboard.html" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Overview</a>
+      <a href="./shifts.html" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Shift History</a>
+      <a href="./cli.html" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Terminal (CLI)</a>
+      <a href="./networth.html" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Net Worth</a>
+      <a href="./scfu.html" class="flex items-center justify-between bg-[#22272a] px-3 py-2.5 text-sm text-lime-300">
+        <span>SCFU Operations</span>
+        <span class="h-1.5 w-1.5 bg-lime-300"></span>
+      </a>
+      <a href="./agents.html" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Agents</a>
+      <a href="./analytics.html" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Analytics</a>
+      <a href="./settings.html" class="flex items-center px-3 py-2.5 text-sm text-[#9ba29d] transition hover:bg-[#1b2022] hover:text-[#ebe9e0]">Settings</a>
+    </div>
+    <div class="mt-auto p-5">
+      <div class="mb-4 border border-[#303638] bg-[#191d20] p-3">
+        <div class="font-mono text-[9px] tracking-[.1em] text-[#a8b1aa]">PRIVATE OPERATOR</div>
+        <div class="mt-2 truncate text-xs text-[#757e79]">kwame@wolfsabyter.local</div>
+      </div>
+      <div class="border-t border-[#292e31] pt-4 font-mono text-[9px] tracking-[.1em] text-[#626b68]">RANGER_ROOST / v1.0.42</div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="md:pl-[252px]">
+    
+    <!-- Header -->
+    <header class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[#292e31] bg-[#101216]/80 px-4 backdrop-blur-md md:px-10">
+      <div class="flex items-center gap-3 overflow-hidden">
+        <button type="button" onclick="toggleMobileDrawer()" class="grid h-9 w-9 shrink-0 place-items-center border border-[#303639] bg-[#191d20]/80 backdrop-blur-sm text-lime-300 md:hidden focus:outline-none hover:border-lime-300/50">
+          <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
+          </svg>
+        </button>
+
+        <div class="truncate font-mono text-[9px] sm:text-[10px] tracking-[.14em] text-[#89918c]">
+          <span class="hidden sm:inline">WOLFX__XSABYTERS &gt; </span>
+          <span class="hidden sm:inline">RANGER_ROOST &gt; </span>
+          <span class="text-lime-300 uppercase">SCFU OPERATIONS</span>
+        </div>
+      </div>
+
+      <div class="flex shrink-0 items-center gap-3">
+        <div class="text-right hidden xs:block sm:block">
+          <div class="truncate text-xs font-medium text-[#dcdad1] max-w-[120px] sm:max-w-none">Kwame Antonio Lockley</div>
+          <div class="font-mono text-[8px] tracking-[.13em] text-[#737c77]">SR. DAY SERVICES COUNSELOR</div>
+        </div>
+        <div class="grid h-8 w-8 shrink-0 place-items-center border border-lime-300/40 bg-lime-300/[.08] backdrop-blur-sm font-mono text-xs text-lime-300">
+          K
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-[1440px] px-5 py-8 md:px-10 md:py-10 space-y-8">
+      
+      <!-- Page Header -->
+      <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div>
+          <div class="mb-3 flex items-center gap-2 font-mono text-[9px] tracking-[.2em] text-lime-300">
+            <span class="h-px w-5 bg-lime-300"></span>SPECIAL CITIZENS FUTURES UNLIMITED
+          </div>
+          <h1 class="text-3xl font-medium tracking-[-.05em] text-[#efeee8] md:text-4xl">Day Services Management & Compliance</h1>
+          <p class="mt-2 text-sm text-[#858e89]">Profile records, OPWDD documentation assistant, goals lexicon, and accrued leave metrics.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="openNoteModal()" class="border border-lime-300/40 bg-lime-300/[.08] px-4 py-2 font-mono text-[10px] tracking-[.1em] text-lime-300 hover:bg-lime-300/[.2] transition">
+            + MONTHLY PROGRESS NOTE
+          </button>
+        </div>
+      </div>
+
+      <!-- Overview Cards Grid (PTO in Hrs & Days) -->
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 font-mono">
+        <div class="border border-[#303639] bg-[#191d20] p-5">
+          <div class="text-[9px] tracking-[.16em] text-[#838b86]">CURRENT POSITION</div>
+          <div class="mt-2 text-base font-bold text-[#efeee8]">Senior Counselor</div>
+          <div class="mt-2 text-[10px] text-[#767f7a]">Dept Code: 02 | FLSA: Non-Exempt</div>
+        </div>
+        <div class="border border-[#303639] bg-[#191d20] p-5">
+          <div class="text-[9px] tracking-[.16em] text-[#838b86]">HIRE DATE & TENURE</div>
+          <div class="mt-2 text-base font-bold text-[#efeee8]">11/04/2024</div>
+          <div class="mt-2 text-[10px] text-lime-300/80">2 Years of Service</div>
+        </div>
+        <div class="border border-[#303639] bg-[#191d20] p-5">
+          <div class="text-[9px] tracking-[.16em] text-[#838b86]">AVAILABLE PTO BALANCE</div>
+          <div class="mt-2 text-2xl font-bold text-lime-300">185.44 hrs</div>
+          <div class="mt-2 text-[10px] text-amber-300/90">~23.18 Standard Days (8h)</div>
+        </div>
+        <div class="border border-[#303639] bg-[#191d20] p-5">
+          <div class="text-[9px] tracking-[.16em] text-[#838b86]">PERSONAL TIME</div>
+          <div class="mt-2 text-2xl font-bold text-[#e0decd]">0.00 hrs</div>
+          <div class="mt-2 text-[10px] text-[#767f7a]">32.00h Awarded / 32.00h Taken</div>
+        </div>
+      </div>
+
+      <!-- INDIVIDUAL PARTICIPANT ROSTER & GOAL MATRIX -->
+      <div class="border border-[#303639] bg-[#14171a] p-6 space-y-6 font-mono">
+        <div class="flex flex-col justify-between border-b border-[#2a3033] pb-4 sm:flex-row sm:items-center gap-4">
+          <div>
+            <div class="text-[10px] tracking-[.14em] text-lime-300">ASSIGNED INDIVIDUALS & DAY HAB GOAL MATRIX</div>
+            <div class="text-xs text-[#858e89] mt-0.5">Select a participant to view assigned goal codes & staff action prompts</div>
+          </div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <select id="rosterSelect" onchange="loadParticipantDetails()" class="border border-[#303639] bg-[#101216] px-3 py-2 text-xs text-lime-300 outline-none focus:border-lime-300">
+              <option value="">-- SELECT PARTICIPANT --</option>
+            </select>
+            <button onclick="openManagerModal()" class="border border-[#3a4041] bg-[#191d20] px-3 py-2 text-xs text-[#d0d2cc] hover:border-lime-300 hover:text-lime-300 transition">
+              MANAGE INDIVIDUALS
+            </button>
+          </div>
+        </div>
+
+        <!-- Participant Detail Display Card -->
+        <div id="participantCard" class="border border-[#22282b] bg-[#101216] p-5 space-y-4">
+          <div class="flex flex-col justify-between border-b border-[#24292c] pb-3 sm:flex-row sm:items-center">
+            <div>
+              <h2 id="partName" class="text-lg font-bold text-[#efeee8]">Select an Individual above</h2>
+              <div id="partGoals" class="mt-1 flex flex-wrap gap-1.5"></div>
+            </div>
+            <button id="partDraftBtn" onclick="draftSelectedParticipantNote()" class="mt-3 sm:mt-0 hidden border border-lime-300/40 bg-lime-300/[.08] px-3 py-1.5 text-xs text-lime-300 hover:bg-lime-300/[.2] transition">
+              DRAFT MONTHLY NOTE FOR THIS INDIVIDUAL
+            </button>
+          </div>
+
+          <div id="partPrompts" class="space-y-2 text-xs text-[#c5c8c0]">
+            <p class="text-[#727a75]">Specific staff action prompts will populate here once a participant is selected.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two Column Layout: Net Pay Calculator & OPWDD Assistant -->
+      <div class="grid gap-6 lg:grid-cols-2">
+        
+        <!-- Net Pay Calculator Component -->
+        <div class="border border-[#303639] bg-[#191d20] p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-[#2a3033] pb-4 mb-5">
+              <div class="font-mono text-[10px] tracking-[.14em] text-lime-300">NET PAY SIMULATOR // ZIP 10462</div>
+              <span class="font-mono text-[9px] text-[#737b76]">OVERTIME FACTORED</span>
+            </div>
+            
+            <div class="space-y-4 font-mono text-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-[#858e89]">Period Gross Earnings (120.74h):</span>
+                <span class="text-sm font-bold text-[#efeee8]">$2,963.31</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-[#858e89]">Pre-Tax Benefits (Medical/Dental/Vision):</span>
+                <span class="text-sm text-red-400">-$369.99</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-[#858e89]">Statutory Withholdings (FICA, Fed, NY/NYC):</span>
+                <span class="text-sm text-red-400">-$542.12</span>
+              </div>
+              <div class="flex items-center justify-between border-b border-[#2a3033] pb-3">
+                <span class="text-[#858e89]">Voluntary Life Insurance:</span>
+                <span class="text-sm text-red-400">-$4.34</span>
+              </div>
+              <div class="flex items-center justify-between pt-2">
+                <span class="text-sm font-bold text-lime-300">ESTIMATED NET TAKE-HOME:</span>
+                <span class="text-xl font-bold text-lime-300">$2,046.86</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 border-t border-[#2a3033] pt-4 text-[10px] font-mono text-[#727a75]">
+            *Reflects high overtime pay period (40.74h OT). Standard 80h biweekly net baseline is ~$1,617.00.
+          </div>
+        </div>
+
+        <!-- OPWDD Incident & Documentation Assistant -->
+        <div class="border border-[#303639] bg-[#14171a] p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-[#2a3033] pb-4 mb-5">
+              <div class="font-mono text-[10px] tracking-[.14em] text-lime-300">OPWDD DOCUMENTATION & BILLING ASSISTANT</div>
+              <span class="font-mono text-[9px] text-amber-300">COMPLIANCE ACTIVE</span>
+            </div>
+
+            <div class="space-y-3 font-mono text-xs text-[#c5c8c0]">
+              <div class="border border-[#22282b] bg-[#101216] p-3">
+                <div class="font-bold text-[#efeee8] mb-1">Billing Rules: Past Tense & Staff Action Verbs</div>
+                <p class="text-[11px] text-[#858e89]">Must be written in PAST TENSE. Describe staff actions (encouraged, motivated, assisted, advised, reminded) and individual response (6-8 sentences).</p>
+              </div>
+              <div class="border border-[#22282b] bg-[#101216] p-3">
+                <div class="font-bold text-[#efeee8] mb-1">Mandatory Closing Sentence</div>
+                <p class="text-[11px] text-[#858e89]">All active goal summaries must end with: <span class="text-lime-300 font-mono">"Staff will continue to work with [Name] on this goal."</span></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 flex gap-3">
+            <button onclick="openNoteModal()" class="w-full border border-lime-300/40 bg-lime-300/[.08] py-2 font-mono text-[10px] tracking-[.1em] text-lime-300 hover:bg-lime-300/[.2] transition">
+              + NEW MONTHLY NOTE DRAFT
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Day Hab Goals & Reference Lexicon Section -->
+      <div class="border border-[#303639] bg-[#14171a] p-6 space-y-4 font-mono">
+        <div class="flex items-center justify-between border-b border-[#2a3033] pb-3">
+          <div class="text-[10px] tracking-[.14em] text-lime-300">DAY HAB GOALS & OUTCOME CODES DEFINITIONS</div>
+          <span class="text-[9px] text-[#727a75]">PVO / PS LEXICON</span>
+        </div>
+        
+        <div class="grid gap-4 md:grid-cols-2 text-xs text-[#c5c8c0] leading-relaxed">
+          <div class="space-y-2 border border-[#22282b] bg-[#101216] p-4">
+            <div class="text-lime-300 font-bold">PVO = Personal Valued Outcome</div>
+            <p class="text-[11px] text-[#858e89]">Teach, model, and/or prompt person to achieve personal valued outcomes specified by staff action plan. Goals vary from person to person.</p>
+          </div>
+          <div class="space-y-2 border border-[#22282b] bg-[#101216] p-4">
+            <div class="text-lime-300 font-bold">PS = Professional Services</div>
+            <p class="text-[11px] text-[#858e89]">Teach, model and/or prompt person to perform work tasks such as making copies, greeting visitors, delivering inter-office mail, etc. Also model for person how to conduct themselves in a professional manner.</p>
+          </div>
+        </div>
+
+        <div class="grid gap-2 sm:grid-cols-3 md:grid-cols-4 text-[11px] text-[#9ba29d] pt-2">
+          <div class="border border-[#22282b] bg-[#101216] p-2.5"><span class="text-lime-300 font-bold">SOC:</span> Socialization</div>
+          <div class="border border-[#22282b] bg-[#101216] p-2.5"><span class="text-lime-300 font-bold">COM:</span> Communication</div>
+          <div class="border border-[#22282b] bg-[#101216] p-2.5"><span class="text-lime-300 font-bold">SHR:</span> Social, Health, Rec</div>
+          <div class="border border-[#22282b] bg-[#101216] p-2.5"><span class="text-lime-300 font-bold">HF:</span> Health & Fitness</div>
+          <div class="border border-[#22282b] bg-[#101216] p-2.5"><span class="text-lime-300 font-bold">SAF:</span> Safety Skills</div>
+          <div class="border border-[#22282b] bg-[#101216] p-2.5"><span class="text-lime-300 font-bold">CI:</span> Community Inclusion</div>
+          <div class="border border-[#22282b] bg-[#101216] p-2.5"><span class="text-lime-300 font-bold">MNY:</span> Money Management</div>
+          <div class="border border-[#22282b] bg-[#101216] p-2.5"><span class="text-lime-300 font-bold">TM:</span> Time Management</div>
+          <div class="border border-[#22282b] bg-[#101216] p-2.5"><span class="text-lime-300 font-bold">RB:</span> Relationship Building</div>
+          <div class="border border-[#22282b] bg-[#101216] p-2.5"><span class="text-lime-300 font-bold">PT:</span> Mobility Training</div>
+          <div class="border border-[#22282b] bg-[#101216] p-2.5"><span class="text-lime-300 font-bold">HK:</span> Housekeeping</div>
+          <div class="border border-[#22282b] bg-[#101216] p-2.5"><span class="text-lime-300 font-bold">PC:</span> Personal Care</div>
+          <div class="border border-[#22282b] bg-[#101216] p-2.5"><span class="text-lime-300 font-bold">SB:</span> Social Behaviors</div>
+          <div class="border border-[#22282b] bg-[#101216] p-2.5"><span class="text-lime-300 font-bold">SA:</span> Self Advocacy</div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- PARTICIPANT MANAGER MODAL (CRUD) -->
+  <div id="managerModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-3xl border border-[#303639] bg-[#131619] p-6 font-mono shadow-2xl text-[#e9e7df] space-y-4 max-h-[90vh] overflow-y-auto cli-scrollbar">
+      <div class="flex items-center justify-between border-b border-[#292e31] pb-3">
+        <div class="text-xs font-bold text-lime-300">MANAGE PARTICIPANT ROSTER</div>
+        <button onclick="closeManagerModal()" class="text-xs text-[#747c7d] hover:text-white">[X]</button>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <span class="text-xs text-[#858e89]">Add, update, or remove individuals from your local roster.</span>
+        <button onclick="prepareNewParticipantForm()" class="border border-lime-300/40 bg-lime-300/[.08] px-3 py-1.5 text-xs text-lime-300 hover:bg-lime-300/[.2]">
+          + ADD NEW PARTICIPANT
+        </button>
+      </div>
+
+      <!-- Add/Edit Form Form (Hidden by default) -->
+      <div id="participantFormContainer" class="hidden border border-[#2e3437] bg-[#101216] p-4 space-y-3 text-xs">
+        <div class="font-bold text-lime-300" id="formTitle">Add New Participant</div>
+        <input type="hidden" id="editParticipantId" />
+        
+        <div>
+          <label class="block text-[10px] text-[#727a75] mb-1">PARTICIPANT NAME</label>
+          <input type="text" id="inputName" placeholder="e.g. John Doe" class="w-full border border-[#2e3437] bg-[#131619] p-2 text-[#efeee8] outline-none focus:border-lime-300" />
+        </div>
+        <div>
+          <label class="block text-[10px] text-[#727a75] mb-1">GOAL CODES (Comma separated)</label>
+          <input type="text" id="inputGoals" placeholder="e.g. SOC, HF, PVO (Reading)" class="w-full border border-[#2e3437] bg-[#131619] p-2 text-[#efeee8] outline-none focus:border-lime-300" />
+        </div>
+        <div>
+          <label class="block text-[10px] text-[#727a75] mb-1">STAFF ACTION PROMPTS (One per line)</label>
+          <textarea id="inputPrompts" rows="3" placeholder="Staff verbally prompted..." class="w-full border border-[#2e3437] bg-[#131619] p-2 text-[#efeee8] outline-none focus:border-lime-300 leading-relaxed"></textarea>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button onclick="saveParticipantData()" class="border border-lime-300/40 bg-lime-300/[.08] px-3 py-1.5 text-lime-300 hover:bg-lime-300/[.2]">
+            SAVE PARTICIPANT
+          </button>
+          <button onclick="cancelParticipantEdit()" class="border border-[#3a4041] bg-[#191d20] px-3 py-1.5 text-[#89918b]">
+            CANCEL
+          </button>
+        </div>
+      </div>
+
+      <!-- Participant List Table -->
+      <div class="overflow-x-auto max-h-60 overflow-y-auto cli-scrollbar border border-[#2e3437]">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-[#191d20] text-[#727a75] text-[10px] tracking-[.1em]">
+            <tr>
+              <th class="p-3">NAME</th>
+              <th class="p-3">GOALS</th>
+              <th class="p-3 text-right">ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody id="managerTableBody" class="divide-y divide-[#22282b]">
+            <!-- Injected via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flex justify-end pt-3 border-t border-[#292e31]">
+        <button onclick="closeManagerModal()" class="border border-[#3a4041] bg-[#191d20] px-4 py-2 text-xs text-[#89918b]">
+          CLOSE
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPWDD MONTHLY PROGRESS NOTE MODAL -->
+  <div id="noteModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-2xl border border-[#303639] bg-[#131619] p-6 font-mono shadow-2xl text-[#e9e7df] space-y-4 max-h-[90vh] overflow-y-auto cli-scrollbar">
+      <div class="flex items-center justify-between border-b border-[#292e31] pb-3">
+        <div class="text-xs font-bold text-lime-300">OPWDD MONTHLY PROGRESS NOTE GENERATOR</div>
+        <button onclick="closeNoteModal()" class="text-xs text-[#747c7d] hover:text-white">[X]</button>
+      </div>
+
+      <!-- Quick Action Helpers -->
+      <div class="flex flex-wrap gap-2 text-[10px]">
+        <button onclick="applyNoteTemplate()" class="border border-[#3a4041] bg-[#191d20] px-3 py-1.5 text-lime-300 hover:border-lime-300">
+          LOAD STANDARD 6-8 SENTENCE TEMPLATE
+        </button>
+        <button onclick="setNotServiced()" class="border border-amber-500/40 bg-amber-500/[.08] px-3 py-1.5 text-amber-300 hover:bg-amber-500/[.2]">
+          SET "NOT SERVICED" OVERRIDE
+        </button>
+      </div>
+
+      <!-- Form Inputs -->
+      <div class="grid gap-3 sm:grid-cols-2 text-xs">
+        <div>
+          <label class="block text-[10px] text-[#727a75] mb-1">INDIVIDUAL NAME</label>
+          <input type="text" id="noteConsumerName" placeholder="e.g. John" class="w-full border border-[#2e3437] bg-[#101216] p-2 text-[#efeee8] outline-none focus:border-lime-300" />
+        </div>
+        <div>
+          <label class="block text-[10px] text-[#727a75] mb-1">SERVICE MONTH</label>
+          <input type="text" id="noteMonth" placeholder="e.g. October" class="w-full border border-[#2e3437] bg-[#101216] p-2 text-[#efeee8] outline-none focus:border-lime-300" />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-[10px] text-[#727a75] mb-1">HABILITATION GOAL / STAFF ACTION FOCUS</label>
+        <input type="text" id="noteGoalFocus" placeholder="e.g. Community integration & store navigation" class="w-full border border-[#2e3437] bg-[#101216] p-2 text-xs text-[#efeee8] outline-none focus:border-lime-300" />
+      </div>
+
+      <div>
+        <label class="block text-[10px] text-[#727a75] mb-1">PROGRESS NOTE CONTENT (PAST TENSE REQUIRED)</label>
+        <textarea id="noteContent" rows="6" placeholder="During the month of..." class="w-full border border-[#2e3437] bg-[#101216] p-3 text-xs text-[#efeee8] outline-none focus:border-lime-300 leading-relaxed"></textarea>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-end gap-3 pt-3 border-t border-[#292e31]">
+        <button onclick="copyNoteToClipboard()" class="border border-lime-300/40 bg-lime-300/[.08] px-4 py-2 text-xs text-lime-300 hover:bg-lime-300/[.2]">
+          COPY NOTE TO CLIPBOARD
+        </button>
+        <button onclick="closeNoteModal()" class="border border-[#3a4041] bg-[#191d20] px-4 py-2 text-xs text-[#89918b]">
+          CLOSE
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleMobileDrawer() {
+      const drawer = document.getElementById('mobileDrawer');
+      if (drawer) drawer.classList.toggle('hidden');
+    }
+
+    // --- DEFAULT PARTICIPANTS DATA STORE ---
+    const DEFAULT_PARTICIPANTS = [
+      { id: "simon_a", name: "Simon A", goals: ["HF", "SOC", "SAF"], prompts: ["Staff verbally prompted Simon to wait his turn when others are speaking.", "Staff modeled how to socialize appropriately with others."] },
+      { id: "jeanine_a", name: "Jeanine A", goals: ["SAF", "SOC", "HF"], prompts: ["Staff provided verbal reminders to respect personal space.", "Staff encouraged active participation in physical activities."] },
+      { id: "edward_a", name: "Edward A", goals: ["HF", "REC", "SOC"], prompts: ["Staff encouraged participation in board games and physical fitness.", "Staff modeled appropriate social cues during group activities."] },
+      { id: "danielle_b", name: "Danielle B", goals: ["SAF", "COM", "PVO (Reading Skills)", "SOC"], prompts: ["Staff provided reading sight-word sheets.", "Staff reminded Danielle to obey traffic safety signs."] },
+      { id: "tony_b", name: "Tony B", goals: ["SOC", "REC"], prompts: ["Staff engaged Tony in recreational activities.", "Staff prompted appropriate peer interaction."] },
+      { id: "yahoska", name: "Yahoska", goals: ["SOC", "SAF", "REC"], prompts: ["Staff modeled social interactions.", "Staff reviewed fire safety and community awareness."] },
+      { id: "ron_c", name: "Ron C", goals: ["SAF", "REC", "COM", "HF"], prompts: ["Staff assisted Ron with communication prompts.", "Staff encouraged healthy food choices and physical exercise."] },
+      { id: "chasitie_c", name: "Chasitie C", goals: ["REC", "SOC", "HF"], prompts: ["Staff facilitated group arts and crafts.", "Staff prompted active physical fitness participation."] },
+      { id: "nelson_c", name: "Nelson C", goals: ["PVO (Academics)", "SA", "SAF"], prompts: ["Staff provided academic worksheets.", "Staff encouraged Nelson to self-advocate for his needs."] },
+      { id: "carmen_c", name: "Carmen C", goals: ["SOC", "SAF", "PVO (Volunteering)"], prompts: ["Staff supported Carmen in volunteering tasks.", "Staff prompted safe community ambulation."] },
+      { id: "julio_d", name: "Julio D", goals: ["SAF", "COM", "HF"], prompts: ["Staff encouraged Julio to express thoughts clearly.", "Staff assisted with fitness routines."] },
+      { id: "tania_d", name: "Tania D", goals: ["SAF", "HF"], prompts: ["Staff reviewed pedestrian safety protocols.", "Staff supported healthy lifestyle choices."] },
+      { id: "adrian_d", name: "Adrian D", goals: ["COM", "HF"], prompts: ["Staff modeled clear communication techniques.", "Staff encouraged participation in morning motivation."] },
+      { id: "omar_e", name: "Omar E", goals: ["SOC", "PVO (Volunteering)"], prompts: ["Staff guided Omar during volunteering assignments.", "Staff provided socialization prompts."] },
+      { id: "steven_g", name: "Steven G", goals: ["SOC", "RB", "HF"], prompts: ["Staff guided Steven on emotional self-control when interacting with peers.", "Staff verbally prompted Steven to refrain from grabbing faces.", "Staff helped Steven identify appropriate vs inappropriate touch."] },
+      { id: "robert_g", name: "Robert G", goals: ["HF", "MNY", "SOC"], prompts: ["Staff practiced money counting and mock purchases.", "Staff encouraged participation in fitness routines."] },
+      { id: "raymond_g", name: "Raymond G", goals: ["SAF", "SOC", "HF"], prompts: ["Staff reviewed community safety rules.", "Staff prompted patient turn-taking in conversation."] },
+      { id: "abg", name: "ABG", goals: ["SAF", "SOC", "REC"], prompts: ["Staff supported group recreational games.", "Staff modeled respectful boundaries."] },
+      { id: "alfred_g", name: "Alfred G", goals: ["COM", "SAF", "PVO (Eating Pace)"], prompts: ["Staff created nonverbal communication practice opportunities.", "Staff prompted Alfred to lower his voice tone when making requests.", "Staff encouraged visual safety signal recognition and proper eating pace."] },
+      { id: "caleb_h", name: "Caleb H", goals: ["HF", "SOC", "PVO (Volunteering)"], prompts: ["Staff supported volunteering activities.", "Staff prompted positive peer communication."] },
+      { id: "dolores_h", name: "Dolores H", goals: ["SHR", "SOC", "HK"], prompts: ["Staff guided Dolores in daily space cleaning and housekeeping.", "Staff encouraged recreation participation."] },
+      { id: "shatiera_h", name: "Shatiera H", goals: ["PVO (COM)", "PVO (HF)"], prompts: ["Staff provided expressive communication aids.", "Staff supported daily physical walks."] },
+      { id: "xibo_h", name: "Xibo H", goals: ["SAF", "SOC", "HF"], prompts: ["Staff prompted traffic safety compliance.", "Staff modeled proper greeting gestures."] },
+      { id: "craig_h", name: "Craig H", goals: ["SAF", "PVO"], prompts: ["Staff reviewed fire safety routines.", "Staff provided structured skill practice."] },
+      { id: "keith_j", name: "Keith J", goals: ["SB", "PVO (Academics)", "PVO (Physical Activity)"], prompts: ["Staff educated Keith on appropriate social manners.", "Staff redirected Keith toward constructive tasks when upset.", "Staff provided reading/writing practice sheets."] },
+      { id: "adam_l", name: "Adam L", goals: ["PVO (Appropriate Advocacy)", "PVO (Tech Skills)", "PVO (Volunteering)"], prompts: ["Staff guided Adam in speaking up for his rights.", "Staff provided computer/tech skill tutorials."] },
+      { id: "jailene_m", name: "Jailene M", goals: ["SOC", "PVO (Safety Awareness)", "PVO (Math & Reading)"], prompts: ["Staff provided math and reading worksheets.", "Staff reviewed community safety cues."] },
+      { id: "darnell_m", name: "Darnell M", goals: ["HC", "PVO (Academics)", "SOC"], prompts: ["Staff assisted with health care routines.", "Staff provided academic practice sheets."] },
+      { id: "teddy_m", name: "Teddy M", goals: ["SOC", "SHR", "CI"], prompts: ["Staff setup socialization scenarios with peers.", "Staff praised proper decision making in social settings.", "Staff supported participation in ball sports and Zumba."] },
+      { id: "malcolm_m", name: "Malcolm M", goals: ["SHR", "COM", "SAF"], prompts: ["Staff facilitated group recreational choices.", "Staff reviewed traffic safety guidelines."] },
+      { id: "wayne_o", name: "Wayne O", goals: ["PVO (Name & Address)", "SAF", "SOC"], prompts: ["Staff practiced personal identification recall (Name & Address).", "Staff prompted pedestrian safety."] },
+      { id: "emmanuel_p", name: "Emmanuel P", goals: ["HK", "SOC", "HC"], prompts: ["Staff guided housekeeping and cleaning routines.", "Staff modeled personal hygiene care."] },
+      { id: "eduardo_p", name: "Eduardo P", goals: ["COM", "SHR", "SOC"], prompts: ["Staff facilitated community inclusion outings.", "Staff used visual cues and modeling for social greetings (wave/smile).", "Staff organized sensory friendly group activities."] },
+      { id: "ransis_p", name: "Ransis P", goals: ["PVO (Health & Fitness)", "PVO (Community Incl.)", "SOC"], prompts: ["Staff supported daily community walks.", "Staff encouraged healthy snack choices."] },
+      { id: "daniel_p", name: "Daniel P", goals: ["SOC", "PVO (Arts)", "PVO (Volunteering)"], prompts: ["Staff supported artistic expression projects.", "Staff guided volunteering tasks."] },
+      { id: "angel_q", name: "Angel Q", goals: ["SOC", "PVO (Volunteering)", "SHR"], prompts: ["Staff supported volunteering routines.", "Staff encouraged group recreation."] },
+      { id: "mark_r", name: "Mark R", goals: ["CI", "PVO (Health & Fitness)", "COM"], prompts: ["Staff observed social interactions and redirected inappropriate comments.", "Staff supported daily morning motivation.", "Staff taught Mark how to read and respond to social cues."] }
+    ];
+
+    let participantsList = [];
+
+    // Initialize Roster & Storage
+    document.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('scfu_participants_store');
+      if (saved) {
+        try { participantsList = JSON.parse(saved); } catch(e) { participantsList = DEFAULT_PARTICIPANTS; }
+      } else {
+        participantsList = DEFAULT_PARTICIPANTS;
+        localStorage.setItem('scfu_participants_store', JSON.stringify(participantsList));
+      }
+      populateRosterDropdown();
+    });
+
+    function populateRosterDropdown() {
+      const select = document.getElementById('rosterSelect');
+      const currentVal = select.value;
+      select.innerHTML = '<option value="">-- SELECT PARTICIPANT --</option>';
+      
+      participantsList.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = `${p.name} (${p.goals.join(', ')})`;
+        select.appendChild(opt);
+      });
+
+      if (currentVal) select.value = currentVal;
+    }
+
+    let selectedParticipant = null;
+
+    function loadParticipantDetails() {
+      const val = document.getElementById('rosterSelect').value;
+      const p = participantsList.find(x => x.id === val);
+      
+      const cardName = document.getElementById('partName');
+      const cardGoals = document.getElementById('partGoals');
+      const cardPrompts = document.getElementById('partPrompts');
+      const draftBtn = document.getElementById('partDraftBtn');
+
+      if (!p) {
+        selectedParticipant = null;
+        cardName.textContent = "Select an Individual above";
+        cardGoals.innerHTML = "";
+        cardPrompts.innerHTML = `<p class="text-[#727a75]">Specific staff action prompts will populate here once a participant is selected.</p>`;
+        draftBtn.classList.add('hidden');
+        return;
+      }
+
+      selectedParticipant = p;
+      cardName.textContent = p.name;
+      cardGoals.innerHTML = p.goals.map(g => `<span class="bg-lime-300/[.1] border border-lime-300/40 text-lime-300 px-2 py-0.5 text-[10px]">${g}</span>`).join('');
+      
+      cardPrompts.innerHTML = `
+        <div class="font-bold text-[#efeee8] mb-1">Prescribed Staff Action Prompts:</div>
+        <ul class="list-disc list-inside space-y-1 text-[#9ba29d]">
+          ${p.prompts.map(pr => `<li>${pr}</li>`).join('')}
+        </ul>
+      `;
+      draftBtn.classList.remove('hidden');
+    }
+
+    // --- MANAGER MODAL CRUD FUNCTIONS ---
+    function openManagerModal() {
+      document.getElementById('managerModal').classList.remove('hidden');
+      renderManagerTable();
+      cancelParticipantEdit();
+    }
+
+    function closeManagerModal() {
+      document.getElementById('managerModal').classList.add('hidden');
+      populateRosterDropdown();
+    }
+
+    function renderManagerTable() {
+      const tbody = document.getElementById('managerTableBody');
+      tbody.innerHTML = '';
+
+      participantsList.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-[#191d20]';
+        tr.innerHTML = `
+          <td class="p-3 font-bold text-[#efeee8]">${p.name}</td>
+          <td class="p-3 text-[#858e89]">${p.goals.join(', ')}</td>
+          <td class="p-3 text-right space-x-2">
+            <button onclick="editParticipant('${p.id}')" class="text-lime-300 hover:underline">Edit</button>
+            <button onclick="deleteParticipant('${p.id}')" class="text-red-400 hover:underline">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function prepareNewParticipantForm() {
+      document.getElementById('formTitle').textContent = "Add New Participant";
+      document.getElementById('editParticipantId').value = "";
+      document.getElementById('inputName').value = "";
+      document.getElementById('inputGoals').value = "";
+      document.getElementById('inputPrompts').value = "";
+      document.getElementById('participantFormContainer').classList.remove('hidden');
+    }
+
+    function editParticipant(id) {
+      const p = participantsList.find(x => x.id === id);
+      if (!p) return;
+      document.getElementById('formTitle').textContent = "Edit Participant: " + p.name;
+      document.getElementById('editParticipantId').value = p.id;
+      document.getElementById('inputName').value = p.name;
+      document.getElementById('inputGoals').value = p.goals.join(', ');
+      document.getElementById('inputPrompts').value = p.prompts.join('\n');
+      document.getElementById('participantFormContainer').classList.remove('hidden');
+    }
+
+    function cancelParticipantEdit() {
+      document.getElementById('participantFormContainer').classList.add('hidden');
+    }
+
+    function saveParticipantData() {
+      const editId = document.getElementById('editParticipantId').value;
+      const name = document.getElementById('inputName').value.trim();
+      const goalsStr = document.getElementById('inputGoals').value.trim();
+      const promptsStr = document.getElementById('inputPrompts').value.trim();
+
+      if (!name) {
+        alert('Please enter a participant name.');
+        return;
+      }
+
+      const goals = goalsStr ? goalsStr.split(',').map(s => s.trim()).filter(Boolean) : ["SOC"];
+      const prompts = promptsStr ? promptsStr.split('\n').map(s => s.trim()).filter(Boolean) : ["Staff supported daily habilitation goals."];
+
+      if (editId) {
+        // Update
+        const idx = participantsList.findIndex(x => x.id === editId);
+        if (idx !== -1) {
+          participantsList[idx].name = name;
+          participantsList[idx].goals = goals;
+          participantsList[idx].prompts = prompts;
+        }
+      } else {
+        // Create New
+        const newId = 'part_' + Date.now();
+        participantsList.push({ id: newId, name, goals, prompts });
+      }
+
+      localStorage.setItem('scfu_participants_store', JSON.stringify(participantsList));
+      renderManagerTable();
+      cancelParticipantEdit();
+      populateRosterDropdown();
+      if (selectedParticipant) loadParticipantDetails();
+    }
+
+    function deleteParticipant(id) {
+      if (!confirm('Are you sure you want to delete this participant?')) return;
+      participantsList = participantsList.filter(x => x.id !== id);
+      localStorage.setItem('scfu_participants_store', JSON.stringify(participantsList));
+      renderManagerTable();
+      populateRosterDropdown();
+      loadParticipantDetails();
+    }
+
+    // --- NOTE GENERATOR MODAL FUNCTIONS ---
+    function draftSelectedParticipantNote() {
+      if (!selectedParticipant) return;
+      openNoteModal();
+      document.getElementById('noteConsumerName').value = selectedParticipant.name;
+      document.getElementById('noteGoalFocus').value = selectedParticipant.goals.join(', ');
+      
+      const name = selectedParticipant.name;
+      const month = document.getElementById('noteMonth').value.trim() || 'October';
+      const goalStr = selectedParticipant.goals.join(' and ');
+      const promptSummary = selectedParticipant.prompts[0] || `Staff encouraged ${name} to participate in daily habilitation goals.`;
+
+      const noteText = `During the month of ${month}, staff worked with ${name} on their ${goalStr} goals. ${promptSummary} Staff motivated ${name} to engage in scheduled activities and provided verbal prompts to support skill development. ${name} responded positively to staff guidance and maintained active participation. Staff observed consistent effort and progress throughout the service period. Staff will continue to work with ${name} on this goal.`;
+
+      document.getElementById('noteContent').value = noteText;
+    }
+
+    function openNoteModal() {
+      document.getElementById('noteModal').classList.remove('hidden');
+    }
+
+    function closeNoteModal() {
+      document.getElementById('noteModal').classList.add('hidden');
+    }
+
+    function applyNoteTemplate() {
+      const name = document.getElementById('noteConsumerName').value.trim() || '[Name]';
+      const month = document.getElementById('noteMonth').value.trim() || '[Month]';
+      const goal = document.getElementById('noteGoalFocus').value.trim() || 'their daily habilitation goal';
+
+      const template = `During the month of ${month}, staff worked with ${name} on ${goal}. Staff encouraged ${name} to participate actively in scheduled activities and motivated them to develop skill competencies. When challenges arose, staff advised and assisted ${name} with gentle verbal prompts. ${name} responded positively to staff guidance and engaged well throughout the sessions. Staff observed meaningful progress in ${name}'s confidence and goal achievement. Staff will continue to work with ${name} on this goal.`;
+
+      document.getElementById('noteContent').value = template;
+    }
+
+    function setNotServiced() {
+      const month = document.getElementById('noteMonth').value.trim() || '[Month]';
+      document.getElementById('noteContent').value = `This goal was not serviced in the month of ${month}.`;
+    }
+
+    function copyNoteToClipboard() {
+      const content = document.getElementById('noteContent').value;
+      if (!content) {
+        alert('Please generate or write a progress note first.');
+        return;
+      }
+      navigator.clipboard.writeText(content).then(() => {
+        alert('OPWDD Progress Note copied to clipboard!');
+      });
+    }
+  </script>
+
+  <!-- Shared Sync Script -->
+  <script src="./assets/shiftSync.js"></script>
+</body>
+</html>
