@@ -1,0 +1,34 @@
+[Objective]
+Perform high-fidelity novel view synthesis and a multi-view turnaround sheet for the provided central asset image. Maintain strict consistency in structural geometry, textural detail, lighting, and semantic identity across all synthesized camera rotations.
+
+[Input Asset Analysis]
+- Subject: A symmetrical, hyper-detailed bust sculpture depicting a snarling wolf wearing a textured sheep's head pelt as a ceremonial headdress cowl. 
+- Primary Figure (Center-Lower): Aggressive alpha wolf face looking directly forward. Features detailed fur, sharp bared canine fangs, an open mouth, and blank, milky-white glowing iris/pupil-less stone spheres for eyes.
+- Secondary Figure (Upper Headdress): A realistic sheep head facing forward, serving as the hood. Features dense, coiled, intricately textured wool, horizontally extended ears, and matching blank white stone eyes.
+- Lower Detailing: A thick, rugged, twisted hemp rope is secured tightly into a knot beneath the wolf's chin. The bust is mounted on a clean, rectangular flat black stone pedestal base labeled with crisp engraved text reading "THE WOLF IN SHEEP'S CLOTHING".
+- Material & Medium: Weathered dark charcoal bronze, cast iron, or matte obsidian stone finish. Heavy cross-hatched sculptural textures, deep ambient occlusion cavities, and fine tactile linework.
+- Lighting & Environment: Isolated high-contrast studio key lighting against a pure, flat, seamless solid white background (#FFFFFF). Deep shadows cast organically into the fur and wool crevices.
+
+[Multi-View Turnaround Grid Specifications]
+- Format Layout: Generates a perfectly aligned, horizontal character model asset sheet.
+- Output Angles Required: 
+  1. 0° Exact Frontal View (As provided in source reference)
+  2. 45° Three-Quarter Left Profile
+  3. 90° True Left Profile
+  4. 135° Rear-Left Three-Quarter View
+  5. 180° Exact Posterior Rear View
+  6. 225° Rear-Right Three-Quarter View
+  7. 270° True Right Profile
+  8. 315° Three-Quarter Right Profile
+- Camera Properties: Uniform orthographic or telephoto perspective across all frames. Zero camera tilt or elevation change. Perfectly level horizon line alignment across the grid bounding box.
+
+[Consistency & Generation Constraints]
+- Geometric Preservation: The volume, snout length, ear protrusion distances, and rectangular dimensions of the pedestal must map accurately from frame to frame without warping or melting.
+- Texture Continuity: The complex spiral patterns of the sheep's wool and the directional flow of the wolf's facial fur must smoothly translate across profiles.
+- Material Integrity: Retain the exact dark charcoal matte stone/bronze finish across all angles. Do not introduce speculative specular highlights, metallic reflections, or color shifts.
+- Negative Constraints: No asymmetric distortions, no background noise, no floating artifacts, no color bleeding, no text deformation on rotated angles, no morphing of the sculpture base. Pure flat white backdrop across all generated views.
+
+
+output an actual .obj or .gltf model, make sure your software's settings are set to "Keep Original Aspect Ratio" so it doesn't squish the vertical profile of the headdress.
+
+If text on the base glitched out: AI models struggle to cleanly rotate text characters on a 3D arc. If the text on the pedestal deforms during rotation, consider setting a negative constraint like --no text on rotated views or cleanly clipping out the base in post-processing before building your topology mesh.
